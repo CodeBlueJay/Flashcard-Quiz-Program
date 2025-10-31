@@ -1,3 +1,4 @@
 # Flashcard-Quiz-Program
+## Authors: Jayden Ratanatharathorn, Ahmad Yahia, Owen Yim
 
-sum changes an stuff
+Epic flashcard quiz program
