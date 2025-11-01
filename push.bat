@@ -1,5 +1,5 @@
 @echo off
-set /p msg=Enter commit message: 
+set /p msg=Enter description of changes: 
 echo.
 echo Adding all files
 git add --all
