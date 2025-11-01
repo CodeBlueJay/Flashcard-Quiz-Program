@@ -19,6 +19,7 @@
 3. *Update Flashcard*: Updates specified values at inputted indices of the flashcards
 4. *Add Flashcard Set*: Creates a new ID and flashcard set and adds it to the array of flashcard set IDs
 5. *Get Flashcard*: Returns flashcard from inputted index from current flashcard set 
+
 Side note: Must implement a way to keep track of which flashcard set is currently being viewed, most likely an input in the constructor
 **Flashcards and Flashcard IDs arrays will be class variables, to allow the user to access previous flashcard sets without re-creating them.
 
@@ -36,4 +37,5 @@ Side note: Must implement a way to keep track of which flashcard set is currentl
 1. *Get data*: Shows the user’s data
 2. *Add xp (amount)*: Adds xp to the users profile, also calculates leveling
 3. *Select gamemode(String)*: selects the gamemode
+
 Side Note: Will take in a Flashcard object as a parameter for use in methods
