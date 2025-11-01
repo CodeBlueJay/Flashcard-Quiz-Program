@@ -1,5 +1,12 @@
 @echo off
+echo Updating local branch
+git pull
+echo.
 set /p msg=Enter description of changes: 
+if "%msg%"=="" (
+    echo Commit message cannot be empty.
+    goto :eof
+) 
 echo.
 echo Adding all files
 git add --all
