@@ -21,6 +21,7 @@
 5. *Get Flashcard*: Returns flashcard from inputted index from current flashcard set 
 
 Side note: Must implement a way to keep track of which flashcard set is currently being viewed, most likely an input in the constructor
+
 **Flashcards and Flashcard IDs arrays will be class variables, to allow the user to access previous flashcard sets without re-creating them.
 
 ### Class: Games / Study Options
