@@ -8,28 +8,28 @@
 ## Class Breakdown
 ### Class: Flashcards
 **Variables:**
-*IDs*: Holds an array of IDs that each correspond to a different flashcard set
-*Flashcard set*: 2D Array that holds a list of terms and definitions for each array
+1. *IDs*: Holds an array of IDs that each correspond to a different flashcard set
+2. *Flashcard set*: 2D Array that holds a list of terms and definitions for each array
 - Input system for flashcards will be based on a max of 100 flashcards, where a base array of length 100 will be created, and a new array will be created if the user does not use up all 100 flashcard slots.
 **Potential Methods:**
-  *Sort Flashcards*: Takes in a parameter of what the user would like to sort the flashcards based off of (alphabetical order, etc.), and re-orders the array with that new sorting system.
-*Get Flashcard Set*: Returns flashcard set
-*Update Flashcard*: Updates specified values at inputted indices of the flashcards
-*Add Flashcard Set*: Creates a new ID and flashcard set and adds it to the array of flashcard set IDs
-*Get Flashcard*: Returns flashcard from inputted index from current flashcard set 
+1. *Sort Flashcards*: Takes in a parameter of what the user would like to sort the flashcards based off of (alphabetical order, etc.), and re-orders the array with that new sorting system.
+2. *Get Flashcard Set*: Returns flashcard set
+3. *Update Flashcard*: Updates specified values at inputted indices of the flashcards
+4. *Add Flashcard Set*: Creates a new ID and flashcard set and adds it to the array of flashcard set IDs
+5. *Get Flashcard*: Returns flashcard from inputted index from current flashcard set 
 -# Side note: Must implement a way to keep track of which flashcard set is currently being viewed, most likely an input in the constructor
 **Flashcards and Flashcard IDs arrays will be class variables, to allow the user to access previous flashcard sets without re-creating them.
 ### Class: Games / Study Options
 **Game modes for studying**
-*Standard learn option* (similar to quizlet, both typed and mc answering capabilities) - Shows the definition OR answer and then either a textbox or mcq answer choices ****This will be where the weights likely come in****
-*Match* (Connect with wires among us wires basically) - Shows different options, and the answers, and connect all of them correctly, get a set amount of exp.
-*“Boss Battle”* - A lightweight boss-battle styled event where the player answers questions correctly to damage the “AI” boss, which has a 50% chance of doing damage back, both sides have 5-10 lives to ensure playtime doesn’t go on for too long. Also a time limit for answers, maybe 5-10 seconds.
-*Accuracy Challenge* - All typed answers, MUST be correctly typed 100%, counts how many the user is able to do in a row. There is a time limit that slowly decreases by 0.2 seconds, with the base being 5 or something. High score is saved.
+1. *Standard learn option* (similar to quizlet, both typed and mc answering capabilities) - Shows the definition OR answer and then either a textbox or mcq answer choices ****This will be where the weights likely come in****
+2. *Match* (Connect with wires among us wires basically) - Shows different options, and the answers, and connect all of them correctly, get a set amount of exp.
+3. *“Boss Battle”* - A lightweight boss-battle styled event where the player answers questions correctly to damage the “AI” boss, which has a 50% chance of doing damage back, both sides have 5-10 lives to ensure playtime doesn’t go on for too long. Also a time limit for answers, maybe 5-10 seconds.
+4. *Accuracy Challenge* - All typed answers, MUST be correctly typed 100%, counts how many the user is able to do in a row. There is a time limit that slowly decreases by 0.2 seconds, with the base being 5 or something. High score is saved.
 - Includes attributes for user data related to progression
 - XP will likely be a class variable
 - Level as well
-Methods
-*Get data*: Shows the user’s data
-*Add xp (amount)*: Adds xp to the users profile, also calculates leveling
-*Select gamemode(String)*: selects the gamemode
+**Methods**
+1. *Get data*: Shows the user’s data
+2. *Add xp (amount)*: Adds xp to the users profile, also calculates leveling
+3. *Select gamemode(String)*: selects the gamemode
 -# Side Note: Will take in a Flashcard object as a parameter for use in methods
