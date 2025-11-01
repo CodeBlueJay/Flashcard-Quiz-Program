@@ -39,3 +39,16 @@ Side note: Must implement a way to keep track of which flashcard set is currentl
 3. *Select gamemode(String)*: selects the gamemode
 
 Side Note: Will take in a Flashcard object as a parameter for use in methods
+
+## Features to add
+1. Randomize order
+2. Adaptive Learning (weights)
+3. Track correct answers and show a score
+4. Save cards for re-use
+5. Structure flash-card learning methods around a game / accomplish an objective theme.
+6. Implement a way of holding multiple flashcard sets.
+
+## Tools
+- VSCode (IDE)
+- JavaFX (GUI Library)
+- Git (Version Control and Remote Collaborative Programming)
