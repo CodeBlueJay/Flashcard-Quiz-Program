@@ -6,11 +6,13 @@
 **Application Description:** Our program will be a studying-based application where the user inputs terms they would like to memorize, and answers they need to memorize that correspond with each term. The program will have different options when it comes to the method of studying, similar to Quizlet, Anki, and other flashcard-based study websites, potentially including games, matching, and randomized tests on each of the flashcards.
 
 ## Class Breakdown
+
 ### Class: Flashcards
 **Variables:**
 1. *IDs*: Holds an array of IDs that each correspond to a different flashcard set
 2. *Flashcard set*: 2D Array that holds a list of terms and definitions for each array
 - Input system for flashcards will be based on a max of 100 flashcards, where a base array of length 100 will be created, and a new array will be created if the user does not use up all 100 flashcard slots.
+
 **Potential Methods:**
 1. *Sort Flashcards*: Takes in a parameter of what the user would like to sort the flashcards based off of (alphabetical order, etc.), and re-orders the array with that new sorting system.
 2. *Get Flashcard Set*: Returns flashcard set
@@ -19,6 +21,7 @@
 5. *Get Flashcard*: Returns flashcard from inputted index from current flashcard set 
 -# Side note: Must implement a way to keep track of which flashcard set is currently being viewed, most likely an input in the constructor
 **Flashcards and Flashcard IDs arrays will be class variables, to allow the user to access previous flashcard sets without re-creating them.
+
 ### Class: Games / Study Options
 **Game modes for studying**
 1. *Standard learn option* (similar to quizlet, both typed and mc answering capabilities) - Shows the definition OR answer and then either a textbox or mcq answer choices ****This will be where the weights likely come in****
@@ -28,6 +31,7 @@
 - Includes attributes for user data related to progression
 - XP will likely be a class variable
 - Level as well
+
 **Methods**
 1. *Get data*: Shows the user’s data
 2. *Add xp (amount)*: Adds xp to the users profile, also calculates leveling
