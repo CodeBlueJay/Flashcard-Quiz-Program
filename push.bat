@@ -11,4 +11,3 @@ echo Pushing to repository
 git push
 echo.
 echo Synced
-pause
