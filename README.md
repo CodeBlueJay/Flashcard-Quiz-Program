@@ -10,9 +10,9 @@
 **Variables:**
 *IDs*: Holds an array of IDs that each correspond to a different flashcard set
 *Flashcard set*: 2D Array that holds a list of terms and definitions for each array
-Input system for flashcards will be based on a max of 100 flashcards, where a base array of length 100 will be created, and a new array will be created if the user does not use up all 100 flashcard slots.
+- Input system for flashcards will be based on a max of 100 flashcards, where a base array of length 100 will be created, and a new array will be created if the user does not use up all 100 flashcard slots.
 **Potential Methods:**
-*Sort Flashcards*: Takes in a parameter of what the user would like to sort the flashcards based off of (alphabetical order, etc.), and re-orders the array with that new sorting system.
+  *Sort Flashcards*: Takes in a parameter of what the user would like to sort the flashcards based off of (alphabetical order, etc.), and re-orders the array with that new sorting system.
 *Get Flashcard Set*: Returns flashcard set
 *Update Flashcard*: Updates specified values at inputted indices of the flashcards
 *Add Flashcard Set*: Creates a new ID and flashcard set and adds it to the array of flashcard set IDs
