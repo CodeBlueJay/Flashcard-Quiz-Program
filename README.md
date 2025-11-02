@@ -1,5 +1,4 @@
 # ✨Flashcard Quiz Program✨
-## Authors: Jayden Ratanatharathorn, Ahmad Yahia, Owen Yim
 
 **Problem:** Studying vocabulary or facts gets boring (Or just studying in general), and some people may not get much value out of just staring at terms and definitions.
 
