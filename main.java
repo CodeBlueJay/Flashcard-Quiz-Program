@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,6 +36,13 @@ public class Main extends Application {
         Button bossBtn = new Button("Boss Battle");
         Button accuracyBtn = new Button("Accuracy");
 
+        homeBtn.getStyleClass().addAll("nav-button", "primary");
+        setsBtn.getStyleClass().addAll("nav-button", "accent");
+        learnBtn.getStyleClass().addAll("nav-button", "danger");
+        matchingBtn.getStyleClass().addAll("nav-button", "danger");
+        bossBtn.getStyleClass().addAll("nav-button", "danger");
+        accuracyBtn.getStyleClass().addAll("nav-button", "danger");
+
         menu.getChildren().addAll(homeBtn, setsBtn, learnBtn, matchingBtn, bossBtn, accuracyBtn);
         root = new BorderPane();
         root.setLeft(menu);
@@ -45,7 +53,12 @@ public class Main extends Application {
         bossBtn.setOnAction(e -> root.setCenter(buildBossScreen()));
         accuracyBtn.setOnAction(e -> root.setCenter(buildAccuracyScreen()));
         setsBtn.setOnAction(e -> root.setCenter(buildSetsScreen()));
-        stage.setScene(new Scene(root, 900, 650));
+        Scene scene = new Scene(root, 900, 650);
+        File css = new File("styles.css");
+        if (css.exists()) {
+            scene.getStylesheets().add(css.toURI().toString());
+        }
+        stage.setScene(scene);
         stage.show();
     }
 

@@ -1,0 +1,67 @@
+.button {
+  -fx-font-family: "Segoe UI", Arial, sans-serif;
+  -fx-font-size: 14px;
+  -fx-padding: 8 14;
+  -fx-background-color: linear-gradient(to bottom, #ffffff, #f2f2f2);
+  -fx-background-insets: 0, 1;
+  -fx-background-radius: 8;
+  -fx-text-fill: #1f1f1f;
+  -fx-border-color: #d0d0d0;
+  -fx-border-radius: 8;
+  -fx-border-width: 1;
+  -fx-cursor: hand;
+}
+
+.button:hover {
+  -fx-background-color: linear-gradient(to bottom, #f9f9f9, #ececec);
+}
+
+.button:pressed {
+  -fx-background-color: linear-gradient(to bottom, #e7e7e7, #dddddd);
+  -fx-translate-y: 1;
+}
+
+.button:focused {
+  -fx-effect: dropshadow(gaussian, rgba(0, 120, 215, 0.35), 8, 0.2, 0, 0);
+}
+
+.nav-button {
+  -fx-min-width: 180;
+  -fx-alignment: center-left;
+}
+
+.primary {
+  -fx-background-color: linear-gradient(to bottom, #2e7dff, #2263d6);
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+}
+.primary:hover { -fx-background-color: linear-gradient(to bottom, #4589ff, #2d6fe5); }
+.primary:pressed { -fx-background-color: linear-gradient(to bottom, #1e5cd1, #194faa); }
+
+.accent {
+  -fx-background-color: linear-gradient(to bottom, #7b61ff, #6a4ef5);
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+}
+.accent:hover { -fx-background-color: linear-gradient(to bottom, #8a71ff, #775ef7); }
+.accent:pressed { -fx-background-color: linear-gradient(to bottom, #5d43e6, #4b34cf); }
+
+.danger {
+  -fx-background-color: linear-gradient(to bottom, #ff4b4b, #e23f3f);
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+}
+.danger:hover { -fx-background-color: linear-gradient(to bottom, #ff5f5f, #f24d4d); }
+.danger:pressed { -fx-background-color: linear-gradient(to bottom, #d73737, #bf2f2f); }
+
+.success {
+  -fx-background-color: linear-gradient(to bottom, #28a745, #219638);
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+}
+.success:hover { -fx-background-color: linear-gradient(to bottom, #34c753, #27ad45); }
+.success:pressed { -fx-background-color: linear-gradient(to bottom, #1e8937, #197a2f); }
+
+.root {
+  -fx-background-color: linear-gradient(to bottom right, #fafafa, #f6f6f6);
+}
