@@ -12,9 +12,9 @@
         },
         {
             "type": "java",
-            "name": "MainApp",
+            "name": "Main",
             "request": "launch",
-            "mainClass": "MainApp",
+            "mainClass": "Main",
             "projectName": "Flashcard-Quiz-Program_19aa096d"
         }
     ]
