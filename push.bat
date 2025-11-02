@@ -1,4 +1,5 @@
 @echo off
+git config core.ignorecase false
 echo Updating local branch
 git pull
 echo.
