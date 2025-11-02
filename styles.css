@@ -67,13 +67,39 @@
 }
 
 .switch-button {
-    -fx-background-color: lightgreen;
-    -fx-text-fill: black;
-    -fx-padding: 5 20;
-    -fx-alignment: center;
+  -fx-background-color: linear-gradient(to bottom, #f2f4f7, #e6e9ef);
+  -fx-text-fill: #222;
+  -fx-padding: 6 18;
+  -fx-alignment: center;
+  -fx-background-radius: 999;
+  -fx-border-radius: 999;
+  -fx-border-color: #cfd6e4;
+  -fx-border-width: 1;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0.2, 0, 1);
+}
+
+.switch-button:hover {
+  -fx-background-color: linear-gradient(to bottom, #f7f9fb, #eef1f6);
+}
+
+.switch-button:pressed {
+  -fx-background-color: linear-gradient(to bottom, #e6e9ef, #dbe0e9);
+}
+
+.switch-button:focused {
+  -fx-effect: dropshadow(gaussian, rgba(46,125,255,0.35), 8, 0.3, 0, 0);
 }
 
 .switch-button:selected {
-    -fx-background-color: green;
-    -fx-text-fill: white;
+  -fx-background-color: linear-gradient(to bottom, #34c759, #28a745);
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+}
+
+.switch-button:selected:hover {
+  -fx-background-color: linear-gradient(to bottom, #3ed166, #2fbd51);
+}
+
+.switch-button:selected:pressed {
+  -fx-background-color: linear-gradient(to bottom, #25b44f, #1d9b41);
 }
