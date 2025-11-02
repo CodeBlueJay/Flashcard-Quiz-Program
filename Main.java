@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -79,14 +80,18 @@ public class Main extends Application {
         Label title = new Label("Learn");
         Label prompt = new Label("Temporary Button that shows a random term (Currently all equal chance because weights are 1)");
         Label current = new Label("");
-
+        ToggleButton text = new ToggleButton("Text");
+        text.getStyleClass().add("switch-button");
+        text.setOnAction(e -> {
+            learn.switchText();
+            text.setText(learn.isText() ? "Multi-Select" : "Text");
+        });
         Button next = new Button("Word");
         next.setOnAction(e -> {
             ArrayList<String> chosen = learn.weightedChoice();
             current.setText("Word: " + chosen.get(0) + "\nDefinition: " + chosen.get(1));
         });
-
-        box.getChildren().addAll(title, prompt, next, current);
+        box.getChildren().addAll(title, text, prompt, next, current);
         return box;
     }
 

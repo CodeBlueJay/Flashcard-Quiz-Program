@@ -65,3 +65,15 @@
 .root {
   -fx-background-color: linear-gradient(to bottom right, #fafafa, #f6f6f6);
 }
+
+.switch-button {
+    -fx-background-color: lightgreen;
+    -fx-text-fill: black;
+    -fx-padding: 5 20;
+    -fx-alignment: center;
+}
+
+.switch-button:selected {
+    -fx-background-color: green;
+    -fx-text-fill: white;
+}

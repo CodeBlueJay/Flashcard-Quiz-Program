@@ -33,4 +33,12 @@ public class Learn {
         }
         return null;
     }
+
+    public boolean isText() {
+        return text;
+    }
+
+    public void switchText() {
+        this.text = !text;
+    }
 }
