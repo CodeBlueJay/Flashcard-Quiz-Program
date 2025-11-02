@@ -1,17 +1,20 @@
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Learn {
     private boolean text;
-    private String[] words;
-    private double[] weights;
+    private ArrayList<String> words;
+    private ArrayList<Double> weights;
+    private ArrayList<String> definitions;
 
-    public Learn(boolean t, String[] w, double[] we) {
-        this.text = t;
+    public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d) {
+        this.text = false;
         this.words = w;
         this.weights = we;
+        this.definitions = d;
     }
 
-    public String weightedChoice(String[] items, double[] weights) {
+    public ArrayList<String> weightedChoice() {
         double totalWeight = 0.0;
         Random rand = new Random();
         double randomValue;
@@ -19,10 +22,13 @@ public class Learn {
             totalWeight += weight;
         }
         randomValue = rand.nextDouble() * totalWeight;
-        for (int i = 0; i < items.length; i++) {
-            randomValue -= weights[i];
+        for (int i = 0; i < words.size(); i++) {
+            randomValue -= weights.get(i);
             if (randomValue <= 0.0) {
-                return items[i];
+                ArrayList<String> pair = new ArrayList<>();
+                pair.add(words.get(i));
+                pair.add(definitions.get(i));
+                return pair;
             }
         }
         return null;

@@ -1,9 +1,16 @@
+import java.util.ArrayList;
+
 public class Flashcards {
     public static ArrayList<Flashcards> IDs = new ArrayList<Flashcards>();
-    private ArrayList<ArrayList<String>> flashcardSet = new ArrayList<String>();
+    private ArrayList<ArrayList<String>> flashcardSet = new ArrayList<ArrayList<String>>();
+    private ArrayList<Double> weights = new ArrayList<Double>();
+
     public Flashcards(ArrayList<String> terms, ArrayList<String> definitions){
         flashcardSet.add(terms);
         flashcardSet.add(definitions);
+        for (int i = 0; i < terms.size(); i++) {
+            weights.add(1.0);
+        }
     }
 
     // Sorts flashcards based off of what mode is given, i.e. alphabetical order, etc. Method will check to see if mode given is a valid option or not. (options will be predetermined)
@@ -37,5 +44,9 @@ public class Flashcards {
         flashcard.add((flashcardSet.get(0)).get(index));
         flashcard.add((flashcardSet.get(1)).get(index));
         return flashcard;
+    }
+
+    public ArrayList<Double> getWeights() {
+        return weights;
     }
 }
