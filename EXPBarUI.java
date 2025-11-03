@@ -27,31 +27,25 @@ public class EXPBarUI extends HBox {
     }
 
     private EXPBarUI(int initialXP, int max) {
-        // Initialize visual components first
         progressBar = new ProgressBar(0);
         xpLabel = new Label();
         level = new Label();
 
-        // Set up visual properties
         xpLabel.getStyleClass().add("xp-label");
         level.getStyleClass().add("level-label");
         
-        // Set up layout
         setSpacing(8);
         setAlignment(Pos.CENTER);
         setPadding(new Insets(4, 12, 4, 12));
         getChildren().addAll(level, progressBar, xpLabel);
 
-        // Set up bindings and listeners
         progressBar.progressProperty().bind(progress);
         currentXP.addListener((obs, oldV, newV) -> updateProgress());
         maxXP.addListener((obs, oldV, newV) -> updateProgress());
 
-        // Initialize state
         currentXP.set(initialXP);
         maxXP.set(max);
         
-        // Update visual state
         updateProgress();
     }
 
@@ -88,13 +82,13 @@ public class EXPBarUI extends HBox {
     private void levelUp() {
         currentLevel++;
         int oldMax = maxXP.get();
-        maxXP.set((int)(oldMax * 1.5)); // Increase max XP by 50% each level
+        maxXP.set((int)(oldMax * 1.5));
         updateLabel();
     }
 
     public void setXP(int xp) {
-        currentLevel = 1; // Reset level when explicitly setting XP
-        maxXP.set(100);  // Reset max XP back to initial value
+        currentLevel = 1;
+        maxXP.set(100);
         currentXP.set(Math.max(0, xp));
         updateLabel();
     }
