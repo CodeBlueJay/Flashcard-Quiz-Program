@@ -56,14 +56,10 @@ public class EXPBar extends Application {
                 root = new VBox();
                 Scene scene = new Scene(root,1000,300);
                 java.net.URL css = getClass().getResource("application.css");
-            if (css != null) {
-                scene.getStylesheets().add(css.toExternalForm());
-            } else {
+            if (css == null) {
                 java.io.File fallback = new java.io.File("styles.css");
                 if (fallback.exists()) {
                     scene.getStylesheets().add(fallback.toURI().toString());
-                } else {
-                    System.out.println("Stylesheet not found: application.css or styles.css");
                 }
             }
                 stage.setScene(scene);
@@ -88,16 +84,18 @@ public class EXPBar extends Application {
 
             HBox buttons = new HBox(10);
             buttons.setAlignment(Pos.CENTER);
-            Button add10 = new Button("Add 10 XP");
-            add10.setOnAction(e -> expBar.addXP(10));
-            Button add50 = new Button("Add max XP");
-            add50.setOnAction(e -> expBar.addXP(expBar.getMaxXP()));
+
+            Button add100 = new Button("Add 100 XP");
+            add100.setOnAction(e -> expBar.addXP(100));
+            
+            Button addMax = new Button("Add Max XP");
+            addMax.setOnAction(e -> expBar.addXP(expBar.getMaxXP()));
             
             Button reset = new Button("Reset XP");
             reset.setOnAction(e -> expBar.setXP(0));
             expBar.setMaxXP(100);
             
-            buttons.getChildren().addAll(add10, add50, reset);
+            buttons.getChildren().addAll(add100, addMax, reset);
             root.getChildren().add(buttons);
         } catch (Exception e) {
             System.err.println("Failed to load XP bar: " + e.getMessage());

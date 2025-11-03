@@ -17,7 +17,7 @@ public class EXPBarUI extends HBox {
     private final ProgressBar progressBar;
     private final Label xpLabel;
     private final Label level;
-    private int currentLevel = 1;
+    private int currentLevel;
 
     public static EXPBarUI getInstance() {
         if (instance == null) {
@@ -26,10 +26,11 @@ public class EXPBarUI extends HBox {
         return instance;
     }
 
-    private EXPBarUI(int initialXP, int max) {
-        progressBar = new ProgressBar(0);
+    public EXPBarUI(int initialXP, int max) {
+        progressBar = new ProgressBar();
         xpLabel = new Label();
         level = new Label();
+        currentLevel = 1;
 
         xpLabel.getStyleClass().add("xp-label");
         level.getStyleClass().add("level-label");
@@ -58,6 +59,7 @@ public class EXPBarUI extends HBox {
             cur -= max;
             currentLevel++;
         }
+
         progress.set((double) cur / max);
         updateLabel();
     }
@@ -71,35 +73,49 @@ public class EXPBarUI extends HBox {
         Platform.runLater(() -> {
             int newXP = currentXP.get() + amount;
             while (newXP >= maxXP.get()) {
-                levelUp();
                 newXP -= maxXP.get();
+                levelUp();
             }
-            currentXP.set(Math.max(0, newXP));
-            updateLabel();
+            currentXP.set(newXP);
+            updateProgress();
         });
     }
 
     private void levelUp() {
         currentLevel++;
-        int oldMax = maxXP.get();
-        maxXP.set((int)(oldMax + 100));
-        updateLabel();
+        int old = maxXP.get();
+        if (currentLevel <= 100)
+            maxXP.set((int)(old + 100 - currentLevel * 0.5));
+        else 
+            maxXP.set((int)(old + 9));
+        updateProgress();
     }
 
     public void setXP(int xp) {
         currentLevel = 1; 
         maxXP.set(100); 
-        currentXP.set(Math.max(0, xp));
-        updateLabel();
+        currentXP.set(xp);
+        updateProgress();
     }
 
     public void setMaxXP(int max) {
-        maxXP.set(Math.max(1, max));
-        updateLabel();
+        maxXP.set(max);
+        updateProgress();
     }
 
-    public double getProgress() { return progress.get(); }
-    public DoubleProperty progressProperty() { return progress; }
-    public int getXP() { return currentXP.get(); }
-    public int getMaxXP() { return maxXP.get(); }
+    public double getProgress() { 
+        return progress.get(); 
+    }
+    
+    public DoubleProperty progressProperty() { 
+        return progress; 
+    }
+    
+    public int getXP() { 
+        return currentXP.get(); 
+    }
+    
+    public int getMaxXP() { 
+        return maxXP.get(); 
+    }
 }
