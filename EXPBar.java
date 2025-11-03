@@ -59,7 +59,6 @@ public class EXPBar extends Application {
             if (css != null) {
                 scene.getStylesheets().add(css.toExternalForm());
             } else {
-                // fallback to project file, or log message
                 java.io.File fallback = new java.io.File("styles.css");
                 if (fallback.exists()) {
                     scene.getStylesheets().add(fallback.toURI().toString());
