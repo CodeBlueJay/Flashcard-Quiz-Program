@@ -9,7 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class ProgressSample extends Application {
+public class EXPBar extends Application {
  
     @Override
     public void start(Stage stage) {
