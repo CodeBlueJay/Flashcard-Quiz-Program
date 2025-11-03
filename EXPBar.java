@@ -77,34 +77,23 @@ public class EXPBar extends Application {
     }
 
     public void load() {
-        try {
-            EXPBarUI expBar = EXPBarUI.getInstance();
-            root.setAlignment(Pos.CENTER);
-            root.getChildren().add(expBar);
+        EXPBarUI expBar = EXPBarUI.getInstance();
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().add(expBar);
 
-            HBox buttons = new HBox(10);
-            buttons.setAlignment(Pos.CENTER);
+        HBox buttons = new HBox(10);
+        buttons.setAlignment(Pos.CENTER);
 
-            Button add100 = new Button("Add 100 XP");
-            add100.setOnAction(e -> expBar.addXP(100));
+        Button add100 = new Button("Add 100 XP");
+        add100.setOnAction(e -> expBar.addXP(100));
             
-            Button addMax = new Button("Add Max XP");
-            addMax.setOnAction(e -> expBar.addXP(expBar.getMaxXP()));
+        Button addMax = new Button("Add Max XP");
+        addMax.setOnAction(e -> expBar.addXP(expBar.getMaxXP()));
             
-            Button reset = new Button("Reset XP");
-            reset.setOnAction(e -> expBar.setXP(0));
-            expBar.setMaxXP(100);
+        Button reset = new Button("Reset XP");
+        reset.setOnAction(e -> expBar.setXP(0));
+        expBar.setMaxXP(100);
             
-            buttons.getChildren().addAll(add100, addMax, reset);
-            root.getChildren().add(buttons);
-        } catch (Exception e) {
-            System.err.println("Failed to load XP bar: " + e.getMessage());
-            e.printStackTrace();
-            
-            ProgressBar pb = new ProgressBar();
-            pb.setProgress(0.50f);
-            root.setAlignment(Pos.CENTER);
-            root.getChildren().add(pb);
-        }
-    }
+        buttons.getChildren().addAll(add100, addMax, reset);
+        root.getChildren().add(buttons);
 }
