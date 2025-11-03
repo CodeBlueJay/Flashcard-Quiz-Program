@@ -311,6 +311,4 @@ public class Main extends Application {
         box.getChildren().addAll(title, list);
         return box;
     }
-
-
 }
