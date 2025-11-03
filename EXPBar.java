@@ -104,7 +104,10 @@ public class EXPBar extends Application {
             buttons.getChildren().addAll(add10, add50, reset);
             root.getChildren().add(buttons);
         } catch (Exception e) {
-            // fallback: show a simple ProgressBar if EXPBarUI isn't present
+            System.err.println("Failed to load XP bar: " + e.getMessage());
+            e.printStackTrace();
+            
+            // Fallback to simple progress bar
             ProgressBar pb = new ProgressBar();
             pb.setProgress(0.50f);
             root.setAlignment(Pos.CENTER);
