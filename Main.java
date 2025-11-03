@@ -29,7 +29,6 @@ public class Main extends Application {
     public void start(Stage stage) {
         stage.setTitle("Flashcard Program");
 
-        // Register default set and title
         flashcards.addFlashcardSet(flashcards);
         if (!Flashcards.IDs.isEmpty()) {
             Flashcards.titles.set(Flashcards.IDs.size()-1, "Default Set");
@@ -70,7 +69,6 @@ public class Main extends Application {
         menu.getChildren().addAll(homeBtn, setsBtn, learnBtn, matchingBtn, bossBtn, accuracyBtn);
         root = new BorderPane();
         
-        //XP bar implementation
         EXPBarUI expBar = EXPBarUI.getInstance();
         root.setTop(expBar);
 
