@@ -96,4 +96,5 @@ public class EXPBar extends Application {
             
         buttons.getChildren().addAll(add100, addMax, reset);
         root.getChildren().add(buttons);
+    }
 }
