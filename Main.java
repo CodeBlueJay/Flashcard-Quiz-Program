@@ -35,23 +35,23 @@ public class Main extends Application {
             Flashcards.titles.set(Flashcards.IDs.size()-1, "Default Set");
         }
 
-    // Two test sets
-    ArrayList<String> t2 = new ArrayList<>(Arrays.asList("Dog", "Cat", "Bird", "Fish"));
-    ArrayList<String> d2 = new ArrayList<>(Arrays.asList("Canine", "Feline", "Avian", "Aquatic"));
-    Flashcards set2 = new Flashcards(t2, d2);
-    set2.addFlashcardSet(set2);
-    if (!Flashcards.IDs.isEmpty()) {
-        Flashcards.titles.set(Flashcards.IDs.size()-1, "Animals");
-    }
-    ArrayList<String> t3 = new ArrayList<>(Arrays.asList("CPU", "RAM", "SSD", "GPU"));
-    ArrayList<String> d3 = new ArrayList<>(Arrays.asList("Processor", "Memory", "Storage", "Graphics"));
-    Flashcards set3 = new Flashcards(t3, d3);
-    set3.addFlashcardSet(set3);
-    if (!Flashcards.IDs.isEmpty()) {
-        Flashcards.titles.set(Flashcards.IDs.size()-1, "Computer Parts");
-    }
+        // Two test sets
+        ArrayList<String> t2 = new ArrayList<>(Arrays.asList("Dog", "Cat", "Bird", "Fish"));
+        ArrayList<String> d2 = new ArrayList<>(Arrays.asList("Canine", "Feline", "Avian", "Aquatic"));
+        Flashcards set2 = new Flashcards(t2, d2);
+        set2.addFlashcardSet(set2);
+        if (!Flashcards.IDs.isEmpty()) {
+            Flashcards.titles.set(Flashcards.IDs.size()-1, "Animals");
+        }
+        ArrayList<String> t3 = new ArrayList<>(Arrays.asList("CPU", "RAM", "SSD", "GPU"));
+        ArrayList<String> d3 = new ArrayList<>(Arrays.asList("Processor", "Memory", "Storage", "Graphics"));
+        Flashcards set3 = new Flashcards(t3, d3);
+        set3.addFlashcardSet(set3);
+        if (!Flashcards.IDs.isEmpty()) {
+            Flashcards.titles.set(Flashcards.IDs.size()-1, "Computer Parts");
+        }
 
-    VBox menu = new VBox(10);
+        VBox menu = new VBox(10);
         menu.setPadding(new Insets(12));
         Button homeBtn = new Button("Home");
         Button setsBtn = new Button("Sets");
