@@ -311,4 +311,7 @@ public class Main extends Application {
         box.getChildren().addAll(title, list);
         return box;
     }
+
+    System.out.print("no funny numbers");
+
 }
