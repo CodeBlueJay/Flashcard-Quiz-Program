@@ -69,7 +69,6 @@ public class EXPBar extends Application {
             }
                 stage.setScene(scene);
                 stage.setTitle("EXP Bar");
-                // build UI (including test buttons)
                 load();
                 stage.show();
 
@@ -83,13 +82,11 @@ public class EXPBar extends Application {
     }
 
     public void load() {
-        // Use the shared EXPBarUI component if available
         try {
             EXPBarUI expBar = EXPBarUI.getInstance();
             root.setAlignment(Pos.CENTER);
             root.getChildren().add(expBar);
 
-            // Add test buttons to give XP
             HBox buttons = new HBox(10);
             buttons.setAlignment(Pos.CENTER);
             Button add10 = new Button("Add 10 XP");
@@ -107,7 +104,6 @@ public class EXPBar extends Application {
             System.err.println("Failed to load XP bar: " + e.getMessage());
             e.printStackTrace();
             
-            // Fallback to simple progress bar
             ProgressBar pb = new ProgressBar();
             pb.setProgress(0.50f);
             root.setAlignment(Pos.CENTER);
