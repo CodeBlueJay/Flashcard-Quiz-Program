@@ -10,6 +10,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,20 +21,21 @@ import java.util.Arrays;
 public class Main extends Application {
     private BorderPane root;
     private Flashcards currentSet;
+    // Default flashcard set
     ArrayList<String> default_terms = new ArrayList<>(Arrays.asList("Sus", "69", "Owen"));
     ArrayList<String> default_definitions = new ArrayList<>(Arrays.asList("Short for 'suspicious', originating from Among Us", "OG funny number that came before 67", "That one guy"));
     Flashcards flashcards = new Flashcards(default_terms, default_definitions);
-    ArrayList<Flashcards> flashcardSets = flashcards.getAllFlashcardSets();
-    ArrayList<Double> weights = flashcards.getWeights();
-
     @Override
     public void start(Stage stage) {
         stage.setTitle("Flashcard Program");
 
-    flashcards.addFlashcardSet(flashcards);
-    if (!Flashcards.IDs.isEmpty()) {
-        Flashcards.titles.set(Flashcards.IDs.size()-1, "Default Set");
-    }
+        // Register default set and title
+        flashcards.addFlashcardSet(flashcards);
+        if (!Flashcards.IDs.isEmpty()) {
+            Flashcards.titles.set(Flashcards.IDs.size()-1, "Default Set");
+        }
+
+    // Two test sets
     ArrayList<String> t2 = new ArrayList<>(Arrays.asList("Dog", "Cat", "Bird", "Fish"));
     ArrayList<String> d2 = new ArrayList<>(Arrays.asList("Canine", "Feline", "Avian", "Aquatic"));
     Flashcards set2 = new Flashcards(t2, d2);
@@ -66,12 +71,42 @@ public class Main extends Application {
         root = new BorderPane();
         root.setLeft(menu);
         root.setCenter(buildHomeScreen());
-        homeBtn.setOnAction(e -> root.setCenter(buildHomeScreen()));
-        learnBtn.setOnAction(e -> root.setCenter(buildLearnScreen()));
-        matchingBtn.setOnAction(e -> root.setCenter(buildMatchingScreen()));
-        bossBtn.setOnAction(e -> root.setCenter(buildBossScreen()));
-        accuracyBtn.setOnAction(e -> root.setCenter(buildAccuracyScreen()));
-        setsBtn.setOnAction(e -> root.setCenter(buildSetsScreen()));
+        homeBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.setCenter(buildHomeScreen());
+            }
+        });
+        learnBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.setCenter(buildLearnScreen());
+            }
+        });
+        matchingBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.setCenter(buildMatchingScreen());
+            }
+        });
+        bossBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.setCenter(buildBossScreen());
+            }
+        });
+        accuracyBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.setCenter(buildAccuracyScreen());
+            }
+        });
+        setsBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.setCenter(buildSetsScreen());
+            }
+        });
         Scene scene = new Scene(root, 900, 650);
         File css = new File("styles.css");
         if (css.exists()) {
@@ -113,17 +148,15 @@ public class Main extends Application {
             if (index == selectedIndex) {
                 card.getStyleClass().add("selected");
             }
-            card.setOnAction(e -> {
-                int c = 0;
-                var ss = fc.getFlashcardSet();
-                if (ss != null && ss.size() >= 2 && ss.get(0) != null) {
-                    c = ss.get(0).size();
+            card.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    currentSet = fc;
+                    for (Node n : wrap.getChildren()) {
+                        n.getStyleClass().remove("selected");
+                    }
+                    card.getStyleClass().add("selected");
                 }
-                currentSet = fc;
-                for (Node n : wrap.getChildren()) {
-                    n.getStyleClass().remove("selected");
-                }
-                card.getStyleClass().add("selected");
             });
             wrap.getChildren().add(card);
         }
@@ -132,13 +165,6 @@ public class Main extends Application {
             if (currentSet == null) {
                 currentSet = Flashcards.IDs.get(selectedIndex);
             }
-            int c = 0;
-            try {
-                var s = currentSet.getFlashcardSet();
-                if (s != null && s.size() >= 2 && s.get(0) != null) {
-                    c = s.get(0).size();
-                }
-            } catch (Exception ignored) {}
             int idx = Flashcards.IDs.indexOf(currentSet);
             if (idx < 0) idx = selectedIndex;
         }
@@ -167,14 +193,20 @@ public class Main extends Application {
         Label current = new Label("");
         ToggleButton text = new ToggleButton("Text");
         text.getStyleClass().add("switch-button");
-        text.setOnAction(e -> {
-            learn.switchText();
-            text.setText(learn.isText() ? "Multi-Select" : "Text");
+        text.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                learn.switchText();
+                text.setText(learn.isText() ? "Multi-Select" : "Text");
+            }
         });
         Button next = new Button("Word");
-        next.setOnAction(e -> {
-            ArrayList<String> chosen = learn.weightedChoice();
-            current.setText("Word: " + chosen.get(0) + "\nDefinition: " + chosen.get(1));
+        next.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                ArrayList<String> chosen = learn.weightedChoice();
+                current.setText("Word: " + chosen.get(0) + "\nDefinition: " + chosen.get(1));
+            }
         });
         box.getChildren().addAll(title, text, prompt, next, current);
         return box;
@@ -263,10 +295,13 @@ public class Main extends Application {
             list.getSelectionModel().select(curIdx);
         }
 
-        list.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
-            int sel = newVal == null ? -1 : newVal.intValue();
-            if (sel >= 0 && sel < Flashcards.IDs.size()) {
-                currentSet = Flashcards.IDs.get(sel);
+        list.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> obs, Number oldVal, Number newVal) {
+                int sel = newVal == null ? -1 : newVal.intValue();
+                if (sel >= 0 && sel < Flashcards.IDs.size()) {
+                    currentSet = Flashcards.IDs.get(sel);
+                }
             }
         });
 
