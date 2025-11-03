@@ -69,6 +69,11 @@ public class Main extends Application {
 
         menu.getChildren().addAll(homeBtn, setsBtn, learnBtn, matchingBtn, bossBtn, accuracyBtn);
         root = new BorderPane();
+        
+        //XP bar implementation
+        EXPBarUI expBar = EXPBarUI.getInstance();
+        root.setTop(expBar);
+
         root.setLeft(menu);
         root.setCenter(buildHomeScreen());
         homeBtn.setOnAction(new EventHandler<ActionEvent>() {
