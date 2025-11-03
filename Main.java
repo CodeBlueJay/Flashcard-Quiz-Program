@@ -312,6 +312,5 @@ public class Main extends Application {
         return box;
     }
 
-    System.out.print("no funny numbers");
 
 }
