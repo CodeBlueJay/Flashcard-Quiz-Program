@@ -9,38 +9,32 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+
+
 public class EXPBar extends Application {
- 
+    static VBox root;
+
     @Override
     public void start(Stage stage) {
-        Group root = new Group();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Progress Controls");
- 
-        final Slider slider = new Slider();
-        slider.setMin(0);
-        slider.setMax(50);
-         
-        final ProgressBar pb = new ProgressBar(0);
-        final ProgressIndicator pi = new ProgressIndicator(0);
- 
-        slider.valueProperty().addListener(
-            (ObservableValue<? extends Number> ov, Number old_val, 
-            Number new_val) -> {
-                pb.setProgress(new_val.doubleValue()/50);
-                pi.setProgress(new_val.doubleValue()/50);
-        });
- 
-        final HBox hb = new HBox();
-        hb.setSpacing(5);
-        hb.setAlignment(Pos.CENTER);
-        hb.getChildren().addAll(slider, pb, pi);
-        scene.setRoot(hb);
-        stage.show();
+            try {
+                root = new VBox();
+                Scene scene = new Scene(root, 400, 300);
+                stage.setScene(scene);
+                stage.setTitle("EXP Bar");
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
+
     public static void main(String[] args) {
         launch(args);
     }
-}
 
+    public void load() {
+
+        ProgressBar pb = new ProgressBar();
+
+        root.getChildren().add(pb);
+    }
+}
