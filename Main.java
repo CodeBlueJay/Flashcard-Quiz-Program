@@ -3,10 +3,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
@@ -14,21 +16,37 @@ import java.util.Arrays;
 
 public class Main extends Application {
     private BorderPane root;
-    // TEMPORARY TEST ARRAYS
-    ArrayList<String> test_terms = new ArrayList<>(Arrays.asList("Jayden", "Med", "Owen"));
-    ArrayList<String> test_definitions = new ArrayList<>(Arrays.asList("J", "M", "O"));
-
-    Flashcards flashcards = new Flashcards(test_terms, test_definitions);
-    ArrayList<ArrayList<String>> set = flashcards.getFlashcardSet();
-    ArrayList<String> terms = set.get(0);
-    ArrayList<String> definitions = set.get(1);
+    private Flashcards currentSet;
+    ArrayList<String> default_terms = new ArrayList<>(Arrays.asList("Sus", "69", "Owen"));
+    ArrayList<String> default_definitions = new ArrayList<>(Arrays.asList("Short for 'suspicious', originating from Among Us", "OG funny number that came before 67", "That one guy"));
+    Flashcards flashcards = new Flashcards(default_terms, default_definitions);
+    ArrayList<Flashcards> flashcardSets = flashcards.getAllFlashcardSets();
     ArrayList<Double> weights = flashcards.getWeights();
 
     @Override
     public void start(Stage stage) {
         stage.setTitle("Flashcard Program");
 
-        VBox menu = new VBox(10);
+    flashcards.addFlashcardSet(flashcards);
+    if (!Flashcards.IDs.isEmpty()) {
+        Flashcards.titles.set(Flashcards.IDs.size()-1, "Default Set");
+    }
+    ArrayList<String> t2 = new ArrayList<>(Arrays.asList("Dog", "Cat", "Bird", "Fish"));
+    ArrayList<String> d2 = new ArrayList<>(Arrays.asList("Canine", "Feline", "Avian", "Aquatic"));
+    Flashcards set2 = new Flashcards(t2, d2);
+    set2.addFlashcardSet(set2);
+    if (!Flashcards.IDs.isEmpty()) {
+        Flashcards.titles.set(Flashcards.IDs.size()-1, "Animals");
+    }
+    ArrayList<String> t3 = new ArrayList<>(Arrays.asList("CPU", "RAM", "SSD", "GPU"));
+    ArrayList<String> d3 = new ArrayList<>(Arrays.asList("Processor", "Memory", "Storage", "Graphics"));
+    Flashcards set3 = new Flashcards(t3, d3);
+    set3.addFlashcardSet(set3);
+    if (!Flashcards.IDs.isEmpty()) {
+        Flashcards.titles.set(Flashcards.IDs.size()-1, "Computer Parts");
+    }
+
+    VBox menu = new VBox(10);
         menu.setPadding(new Insets(12));
         Button homeBtn = new Button("Home");
         Button setsBtn = new Button("Sets");
@@ -64,21 +82,88 @@ public class Main extends Application {
     }
 
     private Node buildHomeScreen() {
-        VBox box = new VBox(10);
+        VBox box = new VBox(12);
         box.setPadding(new Insets(16));
-        box.getChildren().addAll(
-            new Label("Flashcard Program Home"),
-            new Label("Modes and Sets on the left menu")
-        );
+        Label title = new Label("Flashcard Program Home");
+        Label subtitle = new Label("Selected Set");
+
+        FlowPane wrap = new FlowPane();
+        wrap.setHgap(12);
+        wrap.setVgap(12);
+
+        int selectedIndex = 0;
+        if (currentSet != null) {
+            int idx = Flashcards.IDs.indexOf(currentSet);
+            if (idx >= 0) selectedIndex = idx;
+        }
+
+        for (int i = 0; i < Flashcards.IDs.size(); i++) {
+            Flashcards fc = Flashcards.IDs.get(i);
+            int index = i;
+            int count = 0;
+            try {
+                var s = fc.getFlashcardSet();
+                if (s != null && s.size() >= 2 && s.get(0) != null) {
+                    count = s.get(0).size();
+                }
+            } catch (Exception ignored) {}
+            String name = (index < Flashcards.titles.size()) ? Flashcards.titles.get(index) : ("Set " + (index + 1));
+            Button card = new Button(name + " — " + count + " cards");
+            card.getStyleClass().add("set-card");
+            if (index == selectedIndex) {
+                card.getStyleClass().add("selected");
+            }
+            card.setOnAction(e -> {
+                int c = 0;
+                var ss = fc.getFlashcardSet();
+                if (ss != null && ss.size() >= 2 && ss.get(0) != null) {
+                    c = ss.get(0).size();
+                }
+                currentSet = fc;
+                for (Node n : wrap.getChildren()) {
+                    n.getStyleClass().remove("selected");
+                }
+                card.getStyleClass().add("selected");
+            });
+            wrap.getChildren().add(card);
+        }
+
+        if (!wrap.getChildren().isEmpty()) {
+            if (currentSet == null) {
+                currentSet = Flashcards.IDs.get(selectedIndex);
+            }
+            int c = 0;
+            try {
+                var s = currentSet.getFlashcardSet();
+                if (s != null && s.size() >= 2 && s.get(0) != null) {
+                    c = s.get(0).size();
+                }
+            } catch (Exception ignored) {}
+            int idx = Flashcards.IDs.indexOf(currentSet);
+            if (idx < 0) idx = selectedIndex;
+        }
+
+        box.getChildren().addAll(title, subtitle, wrap);
         return box;
     }
 
     private Node buildLearnScreen() {
-        Learn learn = new Learn(terms, weights, definitions);
         VBox box = new VBox(10);
         box.setPadding(new Insets(16));
         Label title = new Label("Learn");
-        Label prompt = new Label("Temporary Button that shows a random term (Currently all equal chance because weights are 1)");
+
+        if (currentSet == null || currentSet.getFlashcardSet() == null || currentSet.getFlashcardSet().size() < 2) {
+            box.getChildren().addAll(title, new Label("Pick a set on Home first."));
+            return box;
+        }
+
+        ArrayList<ArrayList<String>> cs = currentSet.getFlashcardSet();
+        ArrayList<String> terms = cs.get(0);
+        ArrayList<String> definitions = cs.get(1);
+        ArrayList<Double> weights = currentSet.getWeights();
+        Learn learn = new Learn(terms, weights, definitions);
+
+        Label prompt = new Label("Temporary Button that shows a random term (weights start at 1)");
         Label current = new Label("");
         ToggleButton text = new ToggleButton("Text");
         text.getStyleClass().add("switch-button");
@@ -98,44 +183,94 @@ public class Main extends Application {
     private Node buildMatchingScreen() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(16));
-        box.getChildren().addAll(
-            new Label("Matching"),
-            new Label("Build two columns of terms/definitions and connect widget of some sort.")
-        );
+        Label title = new Label("Matching");
+        if (currentSet == null || currentSet.getFlashcardSet() == null || currentSet.getFlashcardSet().size() < 2) {
+            box.getChildren().addAll(title, new Label("Pick a set on Home first."));
+            return box;
+        }
+        int count = 0;
+        try {
+            ArrayList<ArrayList<String>> s = currentSet.getFlashcardSet();
+            if (s != null && s.size() >= 2 && s.get(0) != null) {
+                count = s.get(0).size();
+            }
+        } catch (Exception ignored) {}
+        box.getChildren().addAll(title, new Label("Ready with " + count + " cards (build UI next)"));
         return box;
     }
 
     private Node buildBossScreen() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(16));
-        box.getChildren().addAll(
-            new Label("Boss Battle"),
-            new Label("Answer correctly to damage the boss. Add healthbar (Owen's job).")
-        );
+        Label title = new Label("Boss Battle");
+        if (currentSet == null || currentSet.getFlashcardSet() == null || currentSet.getFlashcardSet().size() < 2) {
+            box.getChildren().addAll(title, new Label("Pick a set on Home first."));
+            return box;
+        }
+        int count = 0;
+        try {
+            ArrayList<ArrayList<String>> s = currentSet.getFlashcardSet();
+            if (s != null && s.size() >= 2 && s.get(0) != null) {
+                count = s.get(0).size();
+            }
+        } catch (Exception ignored) {}
+        box.getChildren().addAll(title, new Label("Ready with " + count + " cards (boss mechanics TBD)"));
         return box;
     }
 
     private Node buildAccuracyScreen() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(16));
-        box.getChildren().addAll(
-            new Label("Accuracy Challenge"),
-            new Label("Typing-only, strict correctness, decreasing time window.")
-        );
+        Label title = new Label("Accuracy Challenge");
+        if (currentSet == null || currentSet.getFlashcardSet() == null || currentSet.getFlashcardSet().size() < 2) {
+            box.getChildren().addAll(title, new Label("Pick a set on Home first."));
+            return box;
+        }
+        int count = 0;
+        try {
+            ArrayList<ArrayList<String>> s = currentSet.getFlashcardSet();
+            if (s != null && s.size() >= 2 && s.get(0) != null) {
+                count = s.get(0).size();
+            }
+        } catch (Exception ignored) {}
+        box.getChildren().addAll(title, new Label("Ready with " + count + " cards (typing UI TBD)"));
         return box;
     }
 
     private Node buildSetsScreen() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(16));
-        box.getChildren().addAll(
-            new Label("Sets"),
-            new Label("Manage your flashcard sets here.")
-        );
-        return box;
-    }
 
-    public static void main(String[] args) {
-        launch(args);
+        Label title = new Label("Sets");
+        ListView<String> list = new ListView<>();
+
+        int index = 1;
+        for (Flashcards fc : Flashcards.IDs) {
+            int count = 0;
+            try {
+                var s = fc.getFlashcardSet();
+                if (s != null && s.size() >= 2 && s.get(0) != null) {
+                    count = s.get(0).size();
+                }
+            } catch (Exception ignored) {}
+            String name = (index-1 < Flashcards.titles.size()) ? Flashcards.titles.get(index-1) : ("Set " + index);
+            list.getItems().add(name + " — " + count + " cards");
+            index++;
+        }
+
+        int curIdx = Flashcards.IDs.indexOf(currentSet);
+        if (curIdx >= 0) {
+            list.getSelectionModel().select(curIdx);
+        }
+
+        list.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
+            int sel = newVal == null ? -1 : newVal.intValue();
+            if (sel >= 0 && sel < Flashcards.IDs.size()) {
+                currentSet = Flashcards.IDs.get(sel);
+            }
+        });
+
+        box.getChildren().addAll(title, list);
+        return box;
     }
 }
