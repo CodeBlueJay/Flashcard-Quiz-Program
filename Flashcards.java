@@ -13,9 +13,26 @@ public class Flashcards {
         }
     }
 
-    // Sorts flashcards based off of what mode is given, i.e. alphabetical order, etc. Method will check to see if mode given is a valid option or not. (options will be predetermined)
-    public void sortFlashcards(String mode){
-
+    // Sorts flashcards alphabetically, using terms as alphabetical reference
+    public void sortFlashcards(){
+        ArrayList<String> tempT = new ArrayList<String>();
+        ArrayList<String> tempD = new ArrayList<String>();
+        int i = 0;
+        String min;
+        while (tempT.size() < flashcardSet.get(0).size()){
+            min = (flashcardSet.get(0)).get(i);
+            for (String term: flashcardSet.get(0)){
+                if (min.compareToIgnoreCase(term) < 0){
+                    min = term;
+                }
+            }
+            tempD.add(flashcardSet.get(1).get(flashcardSet.get(0).indexOf(min)));
+            tempT.add(flashcardSet.get(0).remove(min));
+            i++;
+        }
+        flashcardSet.clear();
+        flashcardSet.add(tempT);
+        flashcardSet.add(tempD);
     }
 
     //Returns current flashcard set
