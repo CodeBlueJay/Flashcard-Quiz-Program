@@ -31,35 +31,27 @@ public class EXPBarUI extends HBox {
         xpLabel = new Label();
         level = new Label();
         currentLevel = 1;
-
         xpLabel.getStyleClass().add("xp-label");
         level.getStyleClass().add("level-label");
-        
         setSpacing(8);
         setAlignment(Pos.CENTER);
         setPadding(new Insets(4, 12, 4, 12));
         getChildren().addAll(level, progressBar, xpLabel);
-
         progressBar.progressProperty().bind(progress);
         currentXP.addListener((obs, oldV, newV) -> updateProgress());
         maxXP.addListener((obs, oldV, newV) -> updateProgress());
-
         currentXP.set(initialXP);
         maxXP.set(max);
-        
         updateProgress();
     }
 
     private void updateProgress() {
         int cur = Math.max(0, currentXP.get());
         int max = Math.max(1, maxXP.get());
-
-        int curLvl = currentLevel;
         while (cur >= max) {
             cur -= max;
             currentLevel++;
         }
-
         progress.set((double) cur / max);
         updateLabel();
     }

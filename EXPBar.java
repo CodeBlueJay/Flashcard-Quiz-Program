@@ -52,24 +52,24 @@ public class EXPBar extends Application {
 
     @Override
     public void start(Stage stage) {
-            try {
-                root = new VBox();
-                Scene scene = new Scene(root,1000,300);
-                java.net.URL css = getClass().getResource("application.css");
-            if (css == null) {
-                java.io.File fallback = new java.io.File("styles.css");
-                if (fallback.exists()) {
-                    scene.getStylesheets().add(fallback.toURI().toString());
-                }
+        try {
+            root = new VBox();
+            Scene scene = new Scene(root,1000,300);
+            java.net.URL css = getClass().getResource("application.css");
+        if (css == null) {
+            java.io.File fallback = new java.io.File("styles.css");
+            if (fallback.exists()) {
+                scene.getStylesheets().add(fallback.toURI().toString());
             }
-                stage.setScene(scene);
-                stage.setTitle("EXP Bar");
-                load();
-                stage.show();
+        }
+            stage.setScene(scene);
+            stage.setTitle("EXP Bar");
+            load();
+            stage.show();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -96,4 +96,5 @@ public class EXPBar extends Application {
             
         buttons.getChildren().addAll(add100, addMax, reset);
         root.getChildren().add(buttons);
+    }
 }
