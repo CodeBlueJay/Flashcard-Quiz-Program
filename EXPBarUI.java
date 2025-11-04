@@ -8,6 +8,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
 
 public class EXPBarUI extends HBox {
     private static EXPBarUI instance;
@@ -63,15 +67,31 @@ public class EXPBarUI extends HBox {
 
     public void addXP(int amount) {
         Platform.runLater(() -> {
-            int newXP = currentXP.get() + amount;
-            while (newXP >= maxXP.get()) {
-                newXP -= maxXP.get();
-                levelUp();
+            int start = currentXP.get();
+            int remaining = amount;
+            while (remaining > 0) {
+                int max = maxXP.get();
+                int nextXP = Math.min(remaining, max-start);
+                //do the animation
+                start += nextXp;
+                remaining -= nextXP;
             }
-            currentXP.set(newXP);
-            updateProgress();
+            
+            // int newXP = currentXP.get() + amount;
+            // while (newXP >= maxXP.get()) {
+            //     newXP -= maxXP.get();
+            //     levelUp();
+            // }
+            // currentXP.set(newXP);
+            // updateProgress();
         });
     }
+
+    private animatedXP (int startXP, int maxXP)
+        progressBar.progressProperty().unbind(task.progressProperty());
+        Timeline t = new Timeline();
+        KeyFrame start = new KeyFrame()
+
 
     private void levelUp() {
         currentLevel++;
