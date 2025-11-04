@@ -1,37 +1,129 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
-public class Learn {
+public class Learn extends VBox {
+    // instance variables
     private boolean text;
     private ArrayList<String> words;
     private ArrayList<Double> weights;
     private ArrayList<String> definitions;
+    // user interface components
+    private Label titleLabel = new Label("Learn");
+    private ToggleButton modeToggle = new ToggleButton("Multiple Choice");
+    private Label prompt = new Label("");
+    private Label feedback = new Label("");
+    private Label progressLabel = new Label("");
+    private Button nextBtn = new Button("Next");
+    private VBox choicesBox = new VBox(8);
+    private Button choiceA = new Button();
+    private Button choiceB = new Button();
+    private Button choiceC = new Button();
+    private Button choiceD = new Button();
+    private HBox freeBox = new HBox(8);
+    private TextField answerField = new TextField();
+    private Button submitBtn = new Button("Submit");
+    private int currentIndex = -1;
+    private boolean askForDefinition = true;
+    private boolean awaitingAnswer = true;
+    private int totalAsked = 0;
+    private int totalCorrect = 0;
 
     public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d) {
         this.text = false;
         this.words = w;
         this.weights = we;
         this.definitions = d;
+        double maxWidth = 360.0;
+        setSpacing(10);
+        setPadding(new Insets(16));
+        modeToggle.getStyleClass().add("switch-button");
+        choiceA.setMaxWidth(maxWidth);
+        choiceB.setMaxWidth(maxWidth);
+        choiceC.setMaxWidth(maxWidth);
+        choiceD.setMaxWidth(maxWidth);
+        choicesBox.getChildren().addAll(choiceA, choiceB, choiceC, choiceD);
+        freeBox.getChildren().addAll(answerField, submitBtn);
+
+        modeToggle.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                switchText();
+                if (isText()) {
+                    modeToggle.setText("Free Response");
+                } else {
+                    modeToggle.setText("Multiple Choice");
+                }
+                feedback.setText("");
+                answerField.clear();
+                nextQuestion();
+            }
+        });
+        nextBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                nextQuestion();
+            }
+        });
+        EventHandler<ActionEvent> choiceHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                if (!awaitingAnswer) return;
+                Button b = (Button) e.getSource();
+                String chosen = b.getText();
+                evaluateAnswer(chosen);
+            }
+        };
+        choiceA.setOnAction(choiceHandler);
+        choiceB.setOnAction(choiceHandler);
+        choiceC.setOnAction(choiceHandler);
+        choiceD.setOnAction(choiceHandler);
+
+        submitBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                if (!awaitingAnswer) return;
+                String ans;
+                if (answerField.getText() == null) {
+                    ans = "";
+                } else {
+                    ans = answerField.getText().trim();
+                }
+                evaluateAnswer(ans);
+            }
+        });
+
+        getChildren().addAll(titleLabel, modeToggle, progressLabel, prompt, choicesBox, freeBox, feedback, nextBtn);
+        nextQuestion();
     }
 
-    public ArrayList<String> weightedChoice() {
+    private int weightedIndex() {
         double totalWeight = 0.0;
         Random rand = new Random();
         double randomValue;
         for (double weight : weights) {
             totalWeight += weight;
         }
+        if (totalWeight <= 0.0 || words == null || words.size() == 0) return -1;
         randomValue = rand.nextDouble() * totalWeight;
         for (int i = 0; i < words.size(); i++) {
             randomValue -= weights.get(i);
             if (randomValue <= 0.0) {
-                ArrayList<String> pair = new ArrayList<>();
-                pair.add(words.get(i));
-                pair.add(definitions.get(i));
-                return pair;
+                return i;
             }
         }
-        return null;
+        return words.size() - 1;
     }
 
     public boolean isText() {
@@ -40,5 +132,143 @@ public class Learn {
 
     public void switchText() {
         this.text = !text;
+    }
+
+    private void nextQuestion() {
+        if (words == null || definitions == null || words.size() < 1 || definitions.size() < 1) {
+            prompt.setText("No cards available.");
+            choicesBox.setVisible(false);
+            freeBox.setVisible(false);
+            nextBtn.setDisable(true);
+            return;
+        }
+        awaitingAnswer = true;
+        feedback.setText("");
+        nextBtn.setDisable(true);
+        answerField.clear();
+
+        askForDefinition = new Random().nextBoolean();
+        currentIndex = weightedIndex();
+        if (currentIndex < 0) {
+            prompt.setText("No cards available.");
+            return;
+        }
+
+        String term = words.get(currentIndex);
+        String def = definitions.get(currentIndex);
+        if (askForDefinition) {
+            prompt.setText("Define: " + term);
+        } else {
+            prompt.setText("Term for: " + def);
+        }
+
+        if (isText() || words.size() < 4) {
+            freeBox.setVisible(true);
+            freeBox.setManaged(true);
+            choicesBox.setVisible(false);
+            choicesBox.setManaged(false);
+        } else {
+            freeBox.setVisible(false);
+            freeBox.setManaged(false);
+            choicesBox.setVisible(true);
+            choicesBox.setManaged(true);
+            fillChoices(currentIndex, askForDefinition);
+        }
+
+        updateProgressLabel();
+    }
+
+    private void fillChoices(int correctIdx, boolean askDef) {
+        String correct;
+        if (askDef) {
+            correct = definitions.get(correctIdx);
+        } else {
+            correct = words.get(correctIdx);
+        }
+        ArrayList<String> options = new ArrayList<String>();
+        options.add(correct);
+        Set<Integer> used = new HashSet<Integer>();
+        used.add(Integer.valueOf(correctIdx));
+        Random r = new Random();
+        while (options.size() < 4 && used.size() < words.size()) {
+            int candidate = r.nextInt(words.size());
+            if (used.contains(Integer.valueOf(candidate))) continue;
+            used.add(Integer.valueOf(candidate));
+            String wrong;
+            if (askDef) {
+                wrong = definitions.get(candidate);
+            } else {
+                wrong = words.get(candidate);
+            }
+            if (!options.contains(wrong)) {
+                options.add(wrong);
+            }
+        }
+        Collections.shuffle(options);
+        Button[] btns = new Button[] { choiceA, choiceB, choiceC, choiceD };
+        for (int i = 0; i < btns.length; i++) {
+            if (i < options.size()) {
+                btns[i].setText(options.get(i));
+                btns[i].setDisable(false);
+                btns[i].setVisible(true);
+                btns[i].setManaged(true);
+            } else {
+                btns[i].setText("");
+                btns[i].setDisable(true);
+                btns[i].setVisible(false);
+                btns[i].setManaged(false);
+            }
+        }
+    }
+
+    private void evaluateAnswer(String given) {
+        if (currentIndex < 0) return;
+        String correct;
+        if (askForDefinition) {
+            correct = definitions.get(currentIndex);
+        } else {
+            correct = words.get(currentIndex);
+        }
+        boolean correctAns;
+        if (isText()) {
+            String normGiven;
+            if (given == null) {
+                normGiven = "";
+            } else {
+                normGiven = given.trim().toLowerCase();
+            }
+            String normCorrect = correct.trim().toLowerCase();
+            correctAns = normGiven.equals(normCorrect);
+        } else {
+            correctAns = correct.equals(given);
+        }
+
+        awaitingAnswer = false;
+        totalAsked++;
+        if (correctAns) {
+            totalCorrect++;
+            feedback.setText("Correct! ✔");
+            adjustWeight(currentIndex, true);
+        } else {
+            feedback.setText("Incorrect. Correct answer: " + correct);
+            adjustWeight(currentIndex, false);
+        }
+        nextBtn.setDisable(false);
+        updateProgressLabel();
+    }
+
+    private void adjustWeight(int idx, boolean correct) {
+        if (idx < 0 || idx >= weights.size()) return;
+        double w = weights.get(idx).doubleValue();
+        if (correct) {
+            w = Math.max(0.5, w - 0.25);
+        } else {
+            w = Math.min(5.0, w + 1.0);
+        }
+        weights.set(idx, Double.valueOf(w));
+    }
+
+    private void updateProgressLabel() {
+        progressLabel.setText("Progress: " + totalCorrect + " / " + totalAsked);
     }
 }

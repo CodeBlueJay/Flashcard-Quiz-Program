@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
@@ -60,11 +59,11 @@ public class Main extends Application {
         Button accuracyBtn = new Button("Accuracy");
 
         homeBtn.getStyleClass().addAll("nav-button", "primary");
-        setsBtn.getStyleClass().addAll("nav-button", "accent");
-        learnBtn.getStyleClass().addAll("nav-button", "danger");
-        matchingBtn.getStyleClass().addAll("nav-button", "danger");
-        bossBtn.getStyleClass().addAll("nav-button", "danger");
-        accuracyBtn.getStyleClass().addAll("nav-button", "danger");
+        setsBtn.getStyleClass().addAll("nav-button", "danger");
+        learnBtn.getStyleClass().addAll("nav-button", "accent");
+        matchingBtn.getStyleClass().addAll("nav-button", "accent");
+        bossBtn.getStyleClass().addAll("nav-button", "accent");
+        accuracyBtn.getStyleClass().addAll("nav-button", "accent");
 
         menu.getChildren().addAll(homeBtn, setsBtn, learnBtn, matchingBtn, bossBtn, accuracyBtn);
         root = new BorderPane();
@@ -190,29 +189,8 @@ public class Main extends Application {
         ArrayList<String> terms = cs.get(0);
         ArrayList<String> definitions = cs.get(1);
         ArrayList<Double> weights = currentSet.getWeights();
-        Learn learn = new Learn(terms, weights, definitions);
-
-        Label prompt = new Label("Temporary Button that shows a random term (weights start at 1)");
-        Label current = new Label("");
-        ToggleButton text = new ToggleButton("Text");
-        text.getStyleClass().add("switch-button");
-        text.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                learn.switchText();
-                text.setText(learn.isText() ? "Multi-Select" : "Text");
-            }
-        });
-        Button next = new Button("Word");
-        next.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                ArrayList<String> chosen = learn.weightedChoice();
-                current.setText("Word: " + chosen.get(0) + "\nDefinition: " + chosen.get(1));
-            }
-        });
-        box.getChildren().addAll(title, text, prompt, next, current);
-        return box;
+        Learn learnView = new Learn(terms, weights, definitions);
+        return learnView;
     }
 
     private Node buildMatchingScreen() {
