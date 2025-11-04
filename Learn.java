@@ -27,10 +27,7 @@ public class Learn extends VBox {
     private Label progressLabel = new Label("");
     private Button nextBtn = new Button("Next");
     private VBox choicesBox = new VBox(8);
-    private Button choiceA = new Button();
-    private Button choiceB = new Button();
-    private Button choiceC = new Button();
-    private Button choiceD = new Button();
+    private Button[] choiceBtns = new Button[] { new Button(), new Button(), new Button(), new Button() };
     private HBox freeBox = new HBox(8);
     private TextField answerField = new TextField();
     private Button submitBtn = new Button("Submit");
@@ -39,21 +36,21 @@ public class Learn extends VBox {
     private boolean awaitingAnswer = true;
     private int totalAsked = 0;
     private int totalCorrect = 0;
+    private Random rng = new Random();
 
     public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d) {
         this.text = false;
         this.words = w;
         this.weights = we;
         this.definitions = d;
-        double maxWidth = 360.0;
+        double maxWidth = 360;
         setSpacing(10);
         setPadding(new Insets(16));
         modeToggle.getStyleClass().add("switch-button");
-        choiceA.setMaxWidth(maxWidth);
-        choiceB.setMaxWidth(maxWidth);
-        choiceC.setMaxWidth(maxWidth);
-        choiceD.setMaxWidth(maxWidth);
-        choicesBox.getChildren().addAll(choiceA, choiceB, choiceC, choiceD);
+        for (int i = 0; i < choiceBtns.length; i++) {
+            choiceBtns[i].setMaxWidth(maxWidth);
+            choicesBox.getChildren().add(choiceBtns[i]);
+        }
         freeBox.getChildren().addAll(answerField, submitBtn);
 
         modeToggle.setOnAction(new EventHandler<ActionEvent>() {
@@ -85,10 +82,9 @@ public class Learn extends VBox {
                 evaluateAnswer(chosen);
             }
         };
-        choiceA.setOnAction(choiceHandler);
-        choiceB.setOnAction(choiceHandler);
-        choiceC.setOnAction(choiceHandler);
-        choiceD.setOnAction(choiceHandler);
+        for (int i = 0; i < choiceBtns.length; i++) {
+            choiceBtns[i].setOnAction(choiceHandler);
+        }
 
         submitBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -110,13 +106,12 @@ public class Learn extends VBox {
 
     private int weightedIndex() {
         double totalWeight = 0.0;
-        Random rand = new Random();
         double randomValue;
         for (double weight : weights) {
             totalWeight += weight;
         }
         if (totalWeight <= 0.0 || words == null || words.size() == 0) return -1;
-        randomValue = rand.nextDouble() * totalWeight;
+        randomValue = rng.nextDouble() * totalWeight;
         for (int i = 0; i < words.size(); i++) {
             randomValue -= weights.get(i);
             if (randomValue <= 0.0) {
@@ -138,7 +133,9 @@ public class Learn extends VBox {
         if (words == null || definitions == null || words.size() < 1 || definitions.size() < 1) {
             prompt.setText("No cards available.");
             choicesBox.setVisible(false);
+            choicesBox.setManaged(false);
             freeBox.setVisible(false);
+            freeBox.setManaged(false);
             nextBtn.setDisable(true);
             return;
         }
@@ -147,7 +144,7 @@ public class Learn extends VBox {
         nextBtn.setDisable(true);
         answerField.clear();
 
-        askForDefinition = new Random().nextBoolean();
+        askForDefinition = rng.nextBoolean();
         currentIndex = weightedIndex();
         if (currentIndex < 0) {
             prompt.setText("No cards available.");
@@ -189,9 +186,8 @@ public class Learn extends VBox {
         options.add(correct);
         Set<Integer> used = new HashSet<Integer>();
         used.add(Integer.valueOf(correctIdx));
-        Random r = new Random();
         while (options.size() < 4 && used.size() < words.size()) {
-            int candidate = r.nextInt(words.size());
+            int candidate = rng.nextInt(words.size());
             if (used.contains(Integer.valueOf(candidate))) continue;
             used.add(Integer.valueOf(candidate));
             String wrong;
@@ -205,18 +201,17 @@ public class Learn extends VBox {
             }
         }
         Collections.shuffle(options);
-        Button[] btns = new Button[] { choiceA, choiceB, choiceC, choiceD };
-        for (int i = 0; i < btns.length; i++) {
+        for (int i = 0; i < choiceBtns.length; i++) {
             if (i < options.size()) {
-                btns[i].setText(options.get(i));
-                btns[i].setDisable(false);
-                btns[i].setVisible(true);
-                btns[i].setManaged(true);
+                choiceBtns[i].setText(options.get(i));
+                choiceBtns[i].setDisable(false);
+                choiceBtns[i].setVisible(true);
+                choiceBtns[i].setManaged(true);
             } else {
-                btns[i].setText("");
-                btns[i].setDisable(true);
-                btns[i].setVisible(false);
-                btns[i].setManaged(false);
+                choiceBtns[i].setText("");
+                choiceBtns[i].setDisable(true);
+                choiceBtns[i].setVisible(false);
+                choiceBtns[i].setManaged(false);
             }
         }
     }
