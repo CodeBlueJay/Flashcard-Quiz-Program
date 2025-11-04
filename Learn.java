@@ -244,7 +244,7 @@ public class Learn extends VBox {
         totalAsked++;
         if (correctAns) {
             totalCorrect++;
-            feedback.setText("Correct! ✔");
+            feedback.setText("Correct!");
             adjustWeight(currentIndex, true);
             expBar.addXP(100); //temp value for actually leveling up
         } else {
