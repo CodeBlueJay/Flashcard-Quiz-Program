@@ -40,10 +40,10 @@ public class Learn extends VBox {
     private Random rng = new Random();
 
     public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d, EXPBarUI exp) {
-        this.text = false;
-        this.words = w;
-        this.weights = we;
-        this.definitions = d;
+        text = false;
+        words = w;
+        weights = we;
+        definitions = d;
         double maxWidth = 360;
         expBar = exp;
         setSpacing(10);
@@ -128,7 +128,7 @@ public class Learn extends VBox {
     }
 
     public void switchText() {
-        this.text = !text;
+        text = !text;
     }
 
     private void nextQuestion() {

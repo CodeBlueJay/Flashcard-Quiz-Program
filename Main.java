@@ -240,15 +240,12 @@ public class Main extends Application {
             box.getChildren().addAll(title, new Label("Pick a set on Home first."));
             return box;
         }
-        int count = 0;
-        try {
-            ArrayList<ArrayList<String>> s = currentSet.getFlashcardSet();
-            if (s != null && s.size() >= 2 && s.get(0) != null) {
-                count = s.get(0).size();
-            }
-        } catch (Exception ignored) {}
-        box.getChildren().addAll(title, new Label("Ready with " + count + " cards (typing UI TBD)"));
-        return box;
+        ArrayList<ArrayList<String>> cs = currentSet.getFlashcardSet();
+        ArrayList<String> terms = cs.get(0);
+        ArrayList<String> definitions = cs.get(1);
+        ArrayList<Double> weights = currentSet.getWeights();
+        Accuracy accuracy = new Accuracy(terms, definitions, weights, expBar);
+        return accuracy;
     }
 
     private Node buildSetsScreen() {
