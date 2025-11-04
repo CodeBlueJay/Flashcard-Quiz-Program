@@ -146,7 +146,7 @@ public class Main extends Application {
                 }
             } catch (Exception ignored) {}
             String name = (index < Flashcards.titles.size()) ? Flashcards.titles.get(index) : ("Set " + (index + 1));
-            Button card = new Button(name + " — " + count + " cards");
+            Button card = new Button(name + " - " + count + " cards");
             card.getStyleClass().add("set-card");
             if (index == selectedIndex) {
                 card.getStyleClass().add("selected");
@@ -268,7 +268,7 @@ public class Main extends Application {
                 }
             } catch (Exception ignored) {}
             String name = (index-1 < Flashcards.titles.size()) ? Flashcards.titles.get(index-1) : ("Set " + index);
-            list.getItems().add(name + " — " + count + " cards");
+            list.getItems().add(name + " - " + count + " cards");
             index++;
         }
 

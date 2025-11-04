@@ -259,9 +259,9 @@ public class Learn extends VBox {
         if (idx < 0 || idx >= weights.size()) return;
         double w = weights.get(idx).doubleValue();
         if (correct) {
-            w = Math.max(0.5, w - 0.25);
+            w = w - 0.2;
         } else {
-            w = Math.min(5.0, w + 1.0);
+            w = w + 0.2;
         }
         weights.set(idx, Double.valueOf(w));
     }
