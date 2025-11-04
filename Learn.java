@@ -39,13 +39,15 @@ public class Learn extends VBox {
     private boolean awaitingAnswer = true;
     private int totalAsked = 0;
     private int totalCorrect = 0;
+    private EXPBarUI expBar;
 
-    public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d) {
+    public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d, EXPBarUI exp) {
         this.text = false;
         this.words = w;
         this.weights = we;
         this.definitions = d;
         double maxWidth = 360.0;
+        expBar = exp;
         setSpacing(10);
         setPadding(new Insets(16));
         modeToggle.getStyleClass().add("switch-button");
@@ -249,6 +251,7 @@ public class Learn extends VBox {
             totalCorrect++;
             feedback.setText("Correct! ✔");
             adjustWeight(currentIndex, true);
+            expBar.addXP(100); //temp value for actually leveling up
         } else {
             feedback.setText("Incorrect. Correct answer: " + correct);
             adjustWeight(currentIndex, false);

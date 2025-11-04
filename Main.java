@@ -24,6 +24,7 @@ public class Main extends Application {
     ArrayList<String> default_terms = new ArrayList<>(Arrays.asList("Sus", "69", "Owen", "Jaden"));
     ArrayList<String> default_definitions = new ArrayList<>(Arrays.asList("Short for 'suspicious', originating from Among Us", "OG funny number that came before 67", "That one guy", "Doing too much"));
     Flashcards flashcards = new Flashcards(default_terms, default_definitions);
+    private EXPBarUI expBar;
     @Override
     public void start(Stage stage) {
         stage.setTitle("Flashcard Program");
@@ -68,7 +69,7 @@ public class Main extends Application {
         menu.getChildren().addAll(homeBtn, setsBtn, learnBtn, matchingBtn, bossBtn, accuracyBtn);
         root = new BorderPane();
         
-        EXPBarUI expBar = EXPBarUI.getInstance();
+        expBar = EXPBarUI.getInstance();
         root.setTop(expBar);
 
         root.setLeft(menu);
@@ -189,7 +190,7 @@ public class Main extends Application {
         ArrayList<String> terms = cs.get(0);
         ArrayList<String> definitions = cs.get(1);
         ArrayList<Double> weights = currentSet.getWeights();
-        Learn learnView = new Learn(terms, weights, definitions);
+        Learn learnView = new Learn(terms, weights, definitions, expBar);
         return learnView;
     }
 
