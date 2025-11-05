@@ -12,12 +12,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EXPBarUI extends HBox {
     private static EXPBarUI instance;
     private final IntegerProperty currentXP = new SimpleIntegerProperty(0);
     private final IntegerProperty maxXP = new SimpleIntegerProperty(100);
     private final DoubleProperty progress = new SimpleDoubleProperty(0.0);
+    private final Queue<Integer> xpQueue = new ConcurrentLinkedQueue<>();
+    private final AtomicBoolean animating = new AtomicBoolean(false);
     private final ProgressBar progressBar;
     private final Label xpLabel;
     private final Label level;
@@ -61,22 +66,42 @@ public class EXPBarUI extends HBox {
         level.setText("Level " + currentLevel);
     }
 
+    // old add xp without animation:
+    // public void addXP(int amount) {
+    //     Platform.runLater(() -> {
+    //         int newXP = currentXP.get() + amount;
+    //         while (newXP >= maxXP.get()) {
+    //             newXP -= maxXP.get();
+    //             levelUp();
+    //         }
+    //         currentXP.set(newXP);
+    //         updateProgress();
+    //     });
+    // }
+
     public void addXP(int amount) {
-        Platform.runLater(() -> {
-            int newXP = currentXP.get() + amount;
-            while (newXP >= maxXP.get()) {
-                newXP -= maxXP.get();
-                levelUp();
-            }
-            currentXP.set(newXP);
-            updateProgress();
-        });
+        if (amount <= 0) 
+            return;
+        xpQueue.add(amount);
+        if (animating.compareAndSet(false, true)) {
+            Platform.runLater(this::processQueue);
+        }
     }
 
-    private void animateAdd(int remaining) {
-        if (remaining == 0) 
-            return;
+    private void processQueue() {
+        Integer nextAmount = xpQueue.poll();
+        if (nextAmount != null) {
+            animateAdd(nextAmount);
+        } else {
+            animating.set(false);
+        }
+    }
 
+    public void animateAdd(int remaining) {
+        if (remaining == 0) {
+            processQueue();
+            return;
+        }
         int current = currentXP.get();
         int max = maxXP.get();
         int toFill = max - current;
@@ -84,7 +109,7 @@ public class EXPBarUI extends HBox {
         if (remaining >= toFill) {
             Timeline t = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progress, (double)current / max)),
-                new KeyFrame(Duration.seconds(0.5), new KeyValue(progress, 1))
+                new KeyFrame(Duration.seconds(0.25), new KeyValue(progress, 1))
             );
             t.setOnFinished(e -> {
                 currentXP.set(0);
@@ -101,6 +126,7 @@ public class EXPBarUI extends HBox {
             t.setOnFinished(e -> {
                 currentXP.set(current + remaining);
                 updateLabel();
+                processQueue();
             });
             t.play();
         }
