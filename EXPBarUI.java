@@ -63,13 +63,23 @@ public class EXPBarUI extends HBox {
 
     public void addXP(int amount) {
         Platform.runLater(() -> {
-            int newXP = currentXP.get() + amount;
-            while (newXP >= maxXP.get()) {
-                newXP -= maxXP.get();
-                levelUp();
+            int start = currentXP.get();
+            int remaining = amount;
+            while (remaining > 0) {
+                int max = maxXP.get();
+                int nextXP = Math.min(remaining, max-start);
+                //do the animation
+                start += nextXp;
+                remaining -= nextXP;
             }
-            currentXP.set(newXP);
-            updateProgress();
+            
+            // int newXP = currentXP.get() + amount;
+            // while (newXP >= maxXP.get()) {
+            //     newXP -= maxXP.get();
+            //     levelUp();
+            // }
+            // currentXP.set(newXP);
+            // updateProgress();
         });
     }
 

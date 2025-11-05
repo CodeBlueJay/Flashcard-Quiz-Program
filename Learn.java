@@ -40,10 +40,10 @@ public class Learn extends VBox {
     private Random rng = new Random();
 
     public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d, EXPBarUI exp) {
-        this.text = false;
-        this.words = w;
-        this.weights = we;
-        this.definitions = d;
+        text = false;
+        words = w;
+        weights = we;
+        definitions = d;
         double maxWidth = 360;
         expBar = exp;
         setSpacing(10);
@@ -128,7 +128,7 @@ public class Learn extends VBox {
     }
 
     public void switchText() {
-        this.text = !text;
+        text = !text;
     }
 
     private void nextQuestion() {
@@ -244,7 +244,7 @@ public class Learn extends VBox {
         totalAsked++;
         if (correctAns) {
             totalCorrect++;
-            feedback.setText("Correct! ✔");
+            feedback.setText("Correct!");
             adjustWeight(currentIndex, true);
             expBar.addXP(100); //temp value for actually leveling up
         } else {
@@ -259,9 +259,9 @@ public class Learn extends VBox {
         if (idx < 0 || idx >= weights.size()) return;
         double w = weights.get(idx).doubleValue();
         if (correct) {
-            w = Math.max(0.5, w - 0.25);
+            w = w - 0.2;
         } else {
-            w = Math.min(5.0, w + 1.0);
+            w = w + 0.2;
         }
         weights.set(idx, Double.valueOf(w));
     }

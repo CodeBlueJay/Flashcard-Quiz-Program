@@ -21,8 +21,8 @@ public class Main extends Application {
     private BorderPane root;
     private Flashcards currentSet;
     // Default flashcard set
-    ArrayList<String> default_terms = new ArrayList<>(Arrays.asList("Sus", "69", "Owen", "Jaden"));
-    ArrayList<String> default_definitions = new ArrayList<>(Arrays.asList("Short for 'suspicious', originating from Among Us", "OG funny number that came before 67", "That one guy", "Doing too much"));
+    ArrayList<String> default_terms = new ArrayList<>(Arrays.asList("Sus", "69", "Owen", "Jaden", "Jayden (a lazy person)"));
+    ArrayList<String> default_definitions = new ArrayList<>(Arrays.asList("Short for 'suspicious', originating from Among Us", "OG funny number that came before 67", "Does too little, gay", "Doing too much", "is a bum"));
     Flashcards flashcards = new Flashcards(default_terms, default_definitions);
     private EXPBarUI expBar;
     @Override
@@ -35,8 +35,8 @@ public class Main extends Application {
         }
 
         // Two test sets
-        ArrayList<String> t2 = new ArrayList<>(Arrays.asList("Dog", "Cat", "Bird", "Fish"));
-        ArrayList<String> d2 = new ArrayList<>(Arrays.asList("Canine", "Feline", "Avian", "Aquatic"));
+        ArrayList<String> t2 = new ArrayList<>(Arrays.asList("Dog", "Cat", "Bird"));
+        ArrayList<String> d2 = new ArrayList<>(Arrays.asList("Canine", "Feline", "Avian"));
         Flashcards set2 = new Flashcards(t2, d2);
         set2.addFlashcardSet(set2);
         if (!Flashcards.IDs.isEmpty()) {
@@ -146,7 +146,7 @@ public class Main extends Application {
                 }
             } catch (Exception ignored) {}
             String name = (index < Flashcards.titles.size()) ? Flashcards.titles.get(index) : ("Set " + (index + 1));
-            Button card = new Button(name + " — " + count + " cards");
+            Button card = new Button(name + " - " + count + " cards");
             card.getStyleClass().add("set-card");
             if (index == selectedIndex) {
                 card.getStyleClass().add("selected");
@@ -240,15 +240,12 @@ public class Main extends Application {
             box.getChildren().addAll(title, new Label("Pick a set on Home first."));
             return box;
         }
-        int count = 0;
-        try {
-            ArrayList<ArrayList<String>> s = currentSet.getFlashcardSet();
-            if (s != null && s.size() >= 2 && s.get(0) != null) {
-                count = s.get(0).size();
-            }
-        } catch (Exception ignored) {}
-        box.getChildren().addAll(title, new Label("Ready with " + count + " cards (typing UI TBD)"));
-        return box;
+        ArrayList<ArrayList<String>> cs = currentSet.getFlashcardSet();
+        ArrayList<String> terms = cs.get(0);
+        ArrayList<String> definitions = cs.get(1);
+        ArrayList<Double> weights = currentSet.getWeights();
+        Accuracy accuracy = new Accuracy(terms, definitions, weights, expBar);
+        return accuracy;
     }
 
     private Node buildSetsScreen() {
@@ -268,7 +265,7 @@ public class Main extends Application {
                 }
             } catch (Exception ignored) {}
             String name = (index-1 < Flashcards.titles.size()) ? Flashcards.titles.get(index-1) : ("Set " + index);
-            list.getItems().add(name + " — " + count + " cards");
+            list.getItems().add(name + " - " + count + " cards");
             index++;
         }
 
