@@ -8,6 +8,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class EXPBarUI extends HBox {
     private static EXPBarUI instance;
@@ -48,10 +52,6 @@ public class EXPBarUI extends HBox {
     private void updateProgress() {
         int cur = Math.max(0, currentXP.get());
         int max = Math.max(1, maxXP.get());
-        while (cur >= max) {
-            cur -= max;
-            currentLevel++;
-        }
         progress.set((double) cur / max);
         updateLabel();
     }
@@ -71,6 +71,39 @@ public class EXPBarUI extends HBox {
             currentXP.set(newXP);
             updateProgress();
         });
+    }
+
+    private void animateAdd(int remaining) {
+        if (remaining == 0) 
+            return;
+
+        int current = currentXP.get();
+        int max = maxXP.get();
+        int toFill = max - current;
+
+        if (remaining >= toFill) {
+            Timeline t = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progress, (double)current / max)),
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(progress, 1))
+            );
+            t.setOnFinished(e -> {
+                currentXP.set(0);
+                levelUp(); 
+                animateAdd(remaining - toFill);
+            });
+            t.play();
+        } else {
+            double target = (double)(current + remaining) / max;
+            Timeline t = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progress, (double)current / max)),
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(progress, target))
+            );
+            t.setOnFinished(e -> {
+                currentXP.set(current + remaining);
+                updateLabel();
+            });
+            t.play();
+        }
     }
 
     private void levelUp() {
