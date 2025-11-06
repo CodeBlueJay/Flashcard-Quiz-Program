@@ -83,7 +83,7 @@ public class EXPBar extends Application {
         HBox buttons = new HBox(10);
         buttons.setAlignment(Pos.CENTER);
         Button add100 = new Button("Add 100 XP");
-        add100.setOnAction(e -> expBar.addXP(500));
+        add100.setOnAction(e -> expBar.addXP(5000000));
         Button addMax = new Button("Add Max XP");
         addMax.setOnAction(e -> expBar.addXP(expBar.getMaxXP()));
         Button reset = new Button("Reset XP");

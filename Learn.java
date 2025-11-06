@@ -246,7 +246,7 @@ public class Learn extends VBox {
             totalCorrect++;
             feedback.setText("Correct!");
             adjustWeight(currentIndex, true);
-            expBar.addXP(100); //temp value for actually leveling up
+            expBar.addXP(5); //temp value for actually leveling up
         } else {
             feedback.setText("Incorrect. Correct answer: " + correct);
             adjustWeight(currentIndex, false);
