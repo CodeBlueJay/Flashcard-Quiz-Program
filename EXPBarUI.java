@@ -66,27 +66,27 @@ public class EXPBarUI extends HBox {
         level.setText("Level " + currentLevel);
     }
 
-    //old add xp without animation:
-    public void addXP(int amount) {
-        Platform.runLater(() -> {
-            int newXP = currentXP.get() + amount;
-            while (newXP >= maxXP.get()) {
-                newXP -= maxXP.get();
-                levelUp();
-            }
-            currentXP.set(newXP);
-            updateProgress();
-        });
-    }
-
+    ////old add xp without animation:
     // public void addXP(int amount) {
-    //     if (amount <= 0) 
-    //         return;
-    //     xpQueue.add(amount);
-    //     if (animating.compareAndSet(false, true)) {
-    //         Platform.runLater(this::processQueue);
-    //     }
+    //     Platform.runLater(() -> {
+    //         int newXP = currentXP.get() + amount;
+    //         while (newXP >= maxXP.get()) {
+    //             newXP -= maxXP.get();
+    //             levelUp();
+    //         }
+    //         currentXP.set(newXP);
+    //         updateProgress();
+    //     });
     // }
+
+    public void addXP(int amount) {
+        if (amount <= 0) 
+            return;
+        xpQueue.add(amount);
+        if (animating.compareAndSet(false, true)) {
+            Platform.runLater(this::processQueue);
+        }
+    }
 
     private void processQueue() {
         Integer nextAmount = xpQueue.poll();
