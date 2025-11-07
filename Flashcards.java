@@ -48,9 +48,22 @@ public class Flashcards {
         return flashcardSet;
     }
 
-    // dont know what the param will be, but updates flashcard set by either adding, removing, or changing indices.
-    public void updateFlashcardSet(){
+    // Updates flashcard set by removing flashcard at given index
+    public void updateFlashcardSet(int index){
+        flashcardSet.get(0).remove(index);
+        flashcardSet.get(1).remove(index);
+    }
 
+    // Updates flashcard set by changing flashcard at given index
+    public void updateFlashcardSet(ArrayList<String> flash, int index){
+        flashcardSet.get(0).set(index, flash.get(0));
+        flashcardSet.get(1).set(index, flash.get(1));
+    }
+
+    // Updates flashcard set by adding flashcard at given index
+    public void updateFlashcardSet(int ind, ArrayList<String> fl){
+        flashcardSet.get(0).add(ind, fl.get(0));
+        flashcardSet.get(1).add(ind, fl.get(1));
     }
 
     // adds given flashcard to IDs
