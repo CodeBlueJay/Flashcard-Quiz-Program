@@ -49,6 +49,13 @@ public class Main extends Application {
         if (!Flashcards.IDs.isEmpty()) {
             Flashcards.titles.set(Flashcards.IDs.size()-1, "Computer Parts");
         }
+        ArrayList<String> t4 = new ArrayList<>(Arrays.asList());
+        ArrayList<String> d4 = new ArrayList<>(Arrays.asList());
+        Flashcards set4 = new Flashcards(t4, d4);
+        set4.addFlashcardSet(set4);
+        if (!Flashcards.IDs.isEmpty()) {
+            Flashcards.titles.set(Flashcards.IDs.size()-1, "Empty List");
+        }
 
         VBox menu = new VBox(10);
         menu.setPadding(new Insets(12));

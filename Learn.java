@@ -38,6 +38,7 @@ public class Learn extends VBox {
     private int totalCorrect = 0;
     private EXPBarUI expBar;
     private Random rng = new Random();
+    
 
     public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d, EXPBarUI exp) {
         text = false;
@@ -161,7 +162,7 @@ public class Learn extends VBox {
             prompt.setText("Term for: " + def);
         }
 
-        if (isText() || words.size() < 4) {
+        if (isText()) {
             freeBox.setVisible(true);
             freeBox.setManaged(true);
             choicesBox.setVisible(false);
