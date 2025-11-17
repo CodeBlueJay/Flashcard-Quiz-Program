@@ -16,6 +16,9 @@ import javafx.beans.value.ObservableValue;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class Main extends Application {
     private BorderPane root;
@@ -127,8 +130,24 @@ public class Main extends Application {
     }
 
     private Node buildHomeScreen() {
+        // temp button functionality test
         VBox box = new VBox(12);
         box.setPadding(new Insets(16));
+        File soundFile = new File("sounds/vineBoom.mp3");
+        Button playSoundBtn = new Button("Play Sound");
+        String uri = soundFile.toURI().toString();
+        Media media = new Media(uri);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        playSoundBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                mediaPlayer.stop();
+                mediaPlayer.seek(Duration.ZERO);
+                mediaPlayer.play();
+            }
+        });
+        box.getChildren().add(playSoundBtn);
+
         Label title = new Label("Flashcard Program Home");
         Label subtitle = new Label("Selected Set");
 
