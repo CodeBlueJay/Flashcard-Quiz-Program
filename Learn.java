@@ -135,11 +135,14 @@ public class Learn extends VBox {
     private void nextQuestion() {
         if (words == null || definitions == null || words.size() < 1 || definitions.size() < 1) {
             prompt.setText("No cards available.");
+            prompt.getStyleClass().add("no-cards");
             choicesBox.setVisible(false);
             choicesBox.setManaged(false);
             freeBox.setVisible(false);
             freeBox.setManaged(false);
             nextBtn.setDisable(true);
+            modeToggle.setVisible(false);
+            modeToggle.setManaged(false);
             return;
         }
         awaitingAnswer = true;
