@@ -135,7 +135,7 @@ public class Learn extends VBox {
     private void nextQuestion() {
         if (words == null || definitions == null || words.size() < 1 || definitions.size() < 1) {
             prompt.setText("No cards available.");
-            prompt.getStyleClass().add("wordless");
+            prompt.getStyleClass().add("no-cards");
             choicesBox.setVisible(false);
             choicesBox.setManaged(false);
             freeBox.setVisible(false);
