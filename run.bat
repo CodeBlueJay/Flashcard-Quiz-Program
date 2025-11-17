@@ -1,2 +1,2 @@
-javac --module-path ".\javafx-backup\javafx-sdk-17.0.17\lib" --add-modules javafx.controls,javafx.fxml -d out Main.java
-java --module-path ".\javafx-backup\javafx-sdk-17.0.17\lib" --add-modules javafx.controls,javafx.fxml -cp out Main
+javac --module-path ".\javafx-backup\javafx-sdk-17.0.17\lib" --add-modules javafx.controls,javafx.fxml,javafx.media -d out Main.java
+java --module-path ".\javafx-backup\javafx-sdk-17.0.17\lib" --add-modules javafx.controls,javafx.fxml,javafx.media -cp out Main
