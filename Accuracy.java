@@ -33,6 +33,7 @@ public class Accuracy extends VBox {
         questionsCorrect = 0;
         time = 7.0;
         expBar = exp;
+        Timeline timeline = new Timeline();
         setSpacing(10);
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
@@ -51,6 +52,24 @@ public class Accuracy extends VBox {
                 answer.setText(ans);
             }
         });
+
+        public void timer() {
+        Button start = new Button();
+        start.setText("Start");
+        start.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (timeline != null)
+                    timeline.stop();
+                timeline = new Timeline();
+                timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(time + 1), 
+                        e -> { System.out.println("Time's up!"); }
+                    ));
+                timeline.play();
+            }
+        });
+        }
     }
 
     

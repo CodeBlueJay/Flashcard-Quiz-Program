@@ -237,6 +237,7 @@ public class Main extends Application {
         } catch (Exception ignored) {}
         box.getChildren().addAll(title, new Label("Ready with " + count + " cards (build UI next)"));
         return box;
+        
     }
 
     private Node buildBossScreen() {
