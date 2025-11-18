@@ -25,6 +25,8 @@ public class Accuracy extends VBox {
     private HBox container = new HBox(8);
     private TextField answer = new TextField();
     private Button submit = new Button("Submit");
+    private Button start = new Button("Start");
+    private Label showTimer = new Label;
 
     public Accuracy(ArrayList<String> w, ArrayList<String> m, ArrayList<Double> we, EXPBarUI exp) {
         words = w;
@@ -37,7 +39,8 @@ public class Accuracy extends VBox {
         setSpacing(10);
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
-        container.getChildren().addAll(accuracylabel, answer, submit);
+        showTimer.setText(time);
+        container.getChildren().addAll(accuracylabel, answer, submit, start, showTimer);
         getChildren().add(container);
 
         submit.setOnAction(new EventHandler<ActionEvent>() {
@@ -55,8 +58,6 @@ public class Accuracy extends VBox {
     }
 
     public void timer() {
-        Button start = new Button();
-        start.setText("Start");
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
