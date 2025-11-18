@@ -1,8 +1,8 @@
 public class Matching {
-    private String[] words;
-    private String[] meanings;
+    private ArrayList<String> words;
+    private ArrayList<String> meanings;
 
-    public Matching(String[] w, String[] m) {
+    public Matching(ArrayList<String> w, ArrayList<String> m) {
         this.words = w;
         this.meanings = m;
     }
