@@ -52,8 +52,9 @@ public class Accuracy extends VBox {
                 answer.setText(ans);
             }
         });
+    }
 
-        public void timer() {
+    public void timer() {
         Button start = new Button();
         start.setText("Start");
         start.setOnAction(new EventHandler<ActionEvent>() {
@@ -70,7 +71,6 @@ public class Accuracy extends VBox {
             }
         });
         }
-    }
 
     
 }
