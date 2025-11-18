@@ -33,11 +33,11 @@ public class Accuracy extends VBox {
         questionsCorrect = 0;
         time = 7.0;
         expBar = exp;
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
         setSpacing(10);
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
-        container.getChildren().addAll(accuracylabel, container, answer, submit);
+        container.getChildren().addAll(accuracylabel, answer, submit);
         getChildren().add(container);
 
         submit.setOnAction(new EventHandler<ActionEvent>() {
