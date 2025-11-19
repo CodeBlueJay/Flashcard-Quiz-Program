@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.scene.text.Font;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Accuracy extends VBox {
     private ArrayList<String> words;
@@ -22,12 +25,16 @@ public class Accuracy extends VBox {
     private Timeline timeline;
     // more gui components
     private Label accuracylabel = new Label("Accuracy");
-    private HBox container = new HBox(8);
+    private VBox container = new VBox(8);
     private TextField answer = new TextField();
     private Button submit = new Button("Submit");
     private Button start = new Button("Start");
     private Label showTimer = new Label();
-
+    Font microwave;
+    {
+        microwave = Font.loadFont("file:fonts/microwave.ttf", 36);
+    }
+    
     public Accuracy(ArrayList<String> w, ArrayList<String> m, ArrayList<Double> we, EXPBarUI exp) {
         words = w;
         meanings = m;
@@ -40,6 +47,10 @@ public class Accuracy extends VBox {
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
         showTimer.setText(String.format("%.2f", time));
+        showTimer.getStyleClass().add("timer");
+        if (microwave != null) {
+            showTimer.setFont(microwave);
+        }
         container.getChildren().addAll(accuracylabel, answer, submit, start, showTimer);
         getChildren().add(container);
 

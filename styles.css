@@ -1,5 +1,10 @@
+@font-face {
+  font-family: "Microwave";
+  src: url("fonts/microwave.ttf");
+}
+
 .button {
-  -fx-font-family: "Segoe UI", Arial, sans-serif;
+  -fx-font-family: Arial, sans-serif;
   -fx-font-size: 14px;
   -fx-padding: 8 14;
   -fx-background-color: linear-gradient(to bottom, #ffffff, #f2f2f2);
