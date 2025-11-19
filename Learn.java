@@ -119,6 +119,12 @@ public class Learn extends VBox {
         nextQuestion();
     }
 
+    private void playSound(MediaPlayer player) {
+        player.stop();
+        player.setStartTime(Duration.ZERO);
+        player.play();
+    }
+
     private int weightedIndex() {
         double totalWeight = 0.0;
         double randomValue;
@@ -259,10 +265,12 @@ public class Learn extends VBox {
             totalCorrect++;
             feedback.setText("Correct!");
             adjustWeight(currentIndex, true);
+            playSound(correctPlayer);
             expBar.addXP(5); //temp value for actually leveling up
         } else {
             feedback.setText("Incorrect. Correct answer: " + correct);
             adjustWeight(currentIndex, false);
+            playSound(wrongPlayer);
         }
         nextBtn.setDisable(false);
         updateProgressLabel();
