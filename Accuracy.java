@@ -73,7 +73,6 @@ public class Accuracy extends VBox {
         });
         timer();
     }
-
     public void timer() {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -85,7 +84,7 @@ public class Accuracy extends VBox {
                 if (timeline != null)
                     timeline.stop();
                 timeline = new Timeline();
-                timeline.getKeyFrames().add(
+                timeline.getKeyFrames().add(  
                     new KeyFrame(Duration.seconds(time + 1), 
                         e -> { System.out.println("Time's up!"); }
                     ));
