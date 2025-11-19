@@ -23,6 +23,7 @@ public class Accuracy extends VBox {
     private double time;
     private EXPBarUI expBar;
     private Timeline timeline;
+    private boolean started;
     // more gui components
     private Label accuracylabel = new Label("Accuracy");
     private VBox container = new VBox(8);
@@ -42,11 +43,13 @@ public class Accuracy extends VBox {
         weights = we;
         questionsCorrect = 0;
         time = 7.0;
+        started = false;
         expBar = exp;
         timeline = new Timeline();
         setSpacing(10);
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
+        answer.setDisable(!started);
         showTimer.setText(String.format("%.2f", time));
         showTimer.getStyleClass().add("timer");
         if (microwave != null) {
@@ -68,12 +71,17 @@ public class Accuracy extends VBox {
                 answer.setText(ans);
             }
         });
+        timer();
     }
 
     public void timer() {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                started = true;
+                answer.setDisable(false);
+                start.setDisable(true);
+                answer.requestFocus();
                 if (timeline != null)
                     timeline.stop();
                 timeline = new Timeline();
