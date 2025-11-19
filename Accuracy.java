@@ -31,6 +31,7 @@ public class Accuracy extends VBox {
     private Button start = new Button("Start");
     private Label showTimer = new Label();
     Font microwave;
+    private HBox timerButtons = new HBox(4);
     {
         microwave = Font.loadFont("file:fonts/microwave.ttf", 36);
     }
@@ -51,7 +52,9 @@ public class Accuracy extends VBox {
         if (microwave != null) {
             showTimer.setFont(microwave);
         }
-        container.getChildren().addAll(accuracylabel, answer, submit, start, showTimer);
+        container.getChildren().addAll(accuracylabel, answer, submit);
+        timerButtons.getChildren().addAll(start, showTimer);
+        getChildren().add(timerButtons);
         getChildren().add(container);
 
         submit.setOnAction(new EventHandler<ActionEvent>() {
@@ -84,5 +87,5 @@ public class Accuracy extends VBox {
         });
     }
 
-    
+
 }
