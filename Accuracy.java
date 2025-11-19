@@ -26,7 +26,7 @@ public class Accuracy extends VBox {
     private TextField answer = new TextField();
     private Button submit = new Button("Submit");
     private Button start = new Button("Start");
-    private Label showTimer = new Label;
+    private Label showTimer = new Label();
 
     public Accuracy(ArrayList<String> w, ArrayList<String> m, ArrayList<Double> we, EXPBarUI exp) {
         words = w;
@@ -39,7 +39,7 @@ public class Accuracy extends VBox {
         setSpacing(10);
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
-        showTimer.setText(time);
+        showTimer.setText(String.format("%.2f", time));
         container.getChildren().addAll(accuracylabel, answer, submit, start, showTimer);
         getChildren().add(container);
 

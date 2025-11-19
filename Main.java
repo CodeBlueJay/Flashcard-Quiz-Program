@@ -131,22 +131,22 @@ public class Main extends Application {
 
     private Node buildHomeScreen() {
         // temp button functionality test
-        VBox box = new VBox(12);
-        box.setPadding(new Insets(16));
-        File soundFile = new File("sounds/vineBoom.mp3");
-        Button playSoundBtn = new Button("Play Sound");
-        String uri = soundFile.toURI().toString();
-        Media media = new Media(uri);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        playSoundBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                mediaPlayer.stop();
-                mediaPlayer.seek(Duration.ZERO);
-                mediaPlayer.play();
-            }
-        });
-        box.getChildren().add(playSoundBtn);
+        // VBox box = new VBox(12);
+        // box.setPadding(new Insets(16));
+        // File soundFile = new File("sounds/vineBoom.mp3");
+        // Button playSoundBtn = new Button("Play Sound");
+        // String uri = soundFile.toURI().toString();
+        // Media media = new Media(uri);
+        // MediaPlayer mediaPlayer = new MediaPlayer(media);
+        // playSoundBtn.setOnAction(new EventHandler<ActionEvent>() {
+        //     @Override
+        //     public void handle(ActionEvent e) {
+        //         mediaPlayer.stop();
+        //         mediaPlayer.seek(Duration.ZERO);
+        //         mediaPlayer.play();
+        //     }
+        // });
+        // box.getChildren().add(playSoundBtn);
         // end temp button functionality test
         Label title = new Label("Flashcard Program Home");
         Label subtitle = new Label("Selected Set");

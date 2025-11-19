@@ -12,6 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+import java.io.File;
 
 public class Learn extends VBox {
     // instance variables
@@ -38,7 +42,15 @@ public class Learn extends VBox {
     private int totalCorrect = 0;
     private EXPBarUI expBar;
     private Random rng = new Random();
-    
+    // SoUnD EfFeCtS yUpEe
+    File correct = new File("sounds/correct.mp3");
+    File wrong = new File("sounds/wrong.mp3");
+    String correctUri = correct.toURI().toString();
+    String wrongUri = wrong.toURI().toString();
+    Media correctSound = new Media(correctUri);
+    Media wrongSound = new Media(wrongUri);
+    MediaPlayer correctPlayer = new MediaPlayer(correctSound);
+    MediaPlayer wrongPlayer = new MediaPlayer(wrongSound);
 
     public Learn(ArrayList<String> w, ArrayList<Double> we, ArrayList<String> d, EXPBarUI exp) {
         text = false;
