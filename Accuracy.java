@@ -53,7 +53,7 @@ public class Accuracy extends VBox {
             showTimer.setFont(microwave);
         }
         container.getChildren().addAll(accuracylabel, answer, submit);
-        timerButtons.getChildren().addAll(start, showTimer);
+        timerButtons.getChildren().addAll(showTimer, start);
         getChildren().add(timerButtons);
         getChildren().add(container);
 
