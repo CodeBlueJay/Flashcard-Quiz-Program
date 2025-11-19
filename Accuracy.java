@@ -52,10 +52,9 @@ public class Accuracy extends VBox {
         if (microwave != null) {
             showTimer.setFont(microwave);
         }
-        container.getChildren().addAll(accuracylabel, answer, submit);
+        container.getChildren().addAll(answer, submit);
         timerButtons.getChildren().addAll(showTimer, start);
-        getChildren().add(timerButtons);
-        getChildren().add(container);
+        getChildren().addAll(accuracylabel, timerButtons, container);
 
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
