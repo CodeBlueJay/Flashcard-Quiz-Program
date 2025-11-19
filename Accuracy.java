@@ -82,7 +82,7 @@ public class Accuracy extends VBox {
                 timeline.play();
             }
         });
-        }
+    }
 
     
 }
