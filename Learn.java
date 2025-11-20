@@ -125,23 +125,6 @@ public class Learn extends VBox {
         player.play();
     }
 
-    private int weightedIndex() {
-        double totalWeight = 0.0;
-        double randomValue;
-        for (double weight : weights) {
-            totalWeight += weight;
-        }
-        if (totalWeight <= 0.0 || words == null || words.size() == 0) return -1;
-        randomValue = rng.nextDouble() * totalWeight;
-        for (int i = 0; i < words.size(); i++) {
-            randomValue -= weights.get(i);
-            if (randomValue <= 0.0) {
-                return i;
-            }
-        }
-        return words.size() - 1;
-    }
-
     public boolean isText() {
         return text;
     }
@@ -166,7 +149,7 @@ public class Learn extends VBox {
         answerField.clear();
 
         askForDefinition = rng.nextBoolean();
-        currentIndex = weightedIndex();
+        currentIndex = Utils.weightedIndex(weights, words);
         if (currentIndex < 0) {
             prompt.setText("No cards available.");
             return;

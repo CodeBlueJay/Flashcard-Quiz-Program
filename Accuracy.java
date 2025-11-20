@@ -14,6 +14,7 @@ import javafx.util.Duration;
 import javafx.scene.text.Font;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 public class Accuracy extends VBox {
     private ArrayList<String> words;
@@ -83,7 +84,7 @@ public class Accuracy extends VBox {
                 mainLoop();
                 started = true;
                 answer.setDisable(false);
-                start.setDisable(true);
+                //start.setDisable(true);
                 answer.requestFocus();
                 if (timeline != null)
                     timeline.stop();
@@ -98,6 +99,7 @@ public class Accuracy extends VBox {
     }
 
     private void mainLoop() {
-        definition.setText("Definition: " + meanings.get(0));
+        int index = Utils.weightedIndex(weights, words);
+        definition.setText("Definition: " + meanings.get(index));
     }
 }
