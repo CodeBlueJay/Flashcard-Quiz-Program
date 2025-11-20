@@ -73,20 +73,14 @@ public class Accuracy extends VBox {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ObjectProperty<java.time.Duration> remainingTime = new ObjectProperty<java.time.Duration>(java.time.Duration.ofSeconds(5));
+                int x = time;
                 if (timeline != null)
                     timeline.stop();
                 timeline = new Timeline();
-                timeline.gechhtKeyFrames().add(
+                timeline.KeyFrames().add(
                     new KeyFrame(Duration.seconds(time), (ActionEvent event) -> 
-                    showTimer.setText()));
-                    }
-                    ));
+                    x--));
+                
                 timeline.play();
-            }
-        });
-    }   
-    }
 
-
-}
+            }});
