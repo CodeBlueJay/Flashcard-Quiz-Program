@@ -31,6 +31,8 @@ public class Accuracy extends VBox {
     private Button submit = new Button("Submit");
     private Button start = new Button("Start");
     private Label showTimer = new Label();
+    private Label score = new Label("Score:");
+    private Label definition = new Label("Definition: ");
     Font microwave;
     private HBox timerButtons = new HBox(4);
     {
@@ -52,12 +54,13 @@ public class Accuracy extends VBox {
         answer.setDisable(!started);
         showTimer.setText(String.format("%.2f", time));
         showTimer.getStyleClass().add("timer");
+        score.getStyleClass().add("score");
         if (microwave != null) {
             showTimer.setFont(microwave);
         }
-        container.getChildren().addAll(answer, submit);
+        container.getChildren().addAll(answer, definition, submit);
         timerButtons.getChildren().addAll(showTimer, start);
-        getChildren().addAll(accuracylabel, timerButtons, container);
+        getChildren().addAll(accuracylabel, score, timerButtons, container);
 
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -77,6 +80,7 @@ public class Accuracy extends VBox {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                mainLoop();
                 started = true;
                 answer.setDisable(false);
                 start.setDisable(true);
@@ -93,5 +97,7 @@ public class Accuracy extends VBox {
         });
     }
 
-
+    private void mainLoop() {
+        definition.setText("Definition: " + meanings.get(0));
+    }
 }
