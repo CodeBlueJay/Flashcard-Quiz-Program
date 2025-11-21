@@ -1,16 +1,62 @@
-public class Matching {
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+import javafx.scene.text.Font;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import javafx.scene.Node;
+
+
+public class Matching extends VBox {
     private ArrayList<String> words;
     private ArrayList<String> meanings;
-    private VBox bvox = new VBox(8);
+    private VBox bvox = new VBox(16);
+    private Label fail = new Label("unequal # of words and definitions");
+    private Button wordButton = new Button();
+    private Button meaningButton = new Button();
+
 
     public Matching(ArrayList<String> w, ArrayList<String> m) {
         this.words = w;
         this.meanings = m;
-        bvox.getChildren().addAll(wordButton, meaningButton);
-        box.getChildren().add(bvox);
+       
+        if (words.size() != meanings.size())
+            bvox.getChildren().add(fail);
+        else {
+            for (int i = 0; i < words.size(); i++) {
+                wordButton = new Button(words.get(i));
+                meaningButton = new Button(meanings.get(i));
+                HBox setWords = new HBox(4);
+                setWords.getChildren().addAll(wordButton, meaningButton);
+                bvox.getChildren().addAll(setWords);
+            }
+        }
+
+
+        getChildren().add(bvox);
     }
 
-    /** Needs to acount for: 
+
+    /** Needs to acount for:
      * Creating buttons
      * Actions that occur on button click
      * Setting buttons equal to term / definition
@@ -19,19 +65,7 @@ public class Matching {
      * E
      * Match action (clicking one button, then clicking another on the other side, without issue occuring)
      * Check action (Checking to see if buttons that were clicked are a correct pair)
-     * */ 
+     * */
 
-    
-    public void creatingButtons() {
-        Button[] wordButton = new Button[words.length];
-        Button[] meaningButton = new Button[meanings.length];
-        if (words.length != meanings.length)
-            Label error = new Label("There was a different amount of words and definitions.");
-        else {
-            for (int i = 0; i < words.length; i++) {
-                wordButton[i] = new Button(words.get(i));
-                meaningButton[i] = new Button(meanings.get(i));
-            }
-        }
-    }
+
 }
