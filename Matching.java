@@ -43,6 +43,7 @@ public class Matching extends VBox {
             for (int i = 0; i < words.size(); i++) {
                 wordButton = new Button(words.get(i));
                 meaningButton = new Button(meanings.get(i));
+                //add css for buttons format
                 HBox setWords = new HBox(4);
                 setWords.getChildren().addAll(wordButton, meaningButton);
                 bvox.getChildren().addAll(setWords);

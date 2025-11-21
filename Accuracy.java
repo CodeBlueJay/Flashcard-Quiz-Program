@@ -71,27 +71,36 @@ public class Accuracy extends VBox {
                 answer.setText(ans);
             }
         });
-        timer();
-    }
-    public void timer() {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                started = true;
-                answer.setDisable(false);
-                start.setDisable(true);
-                answer.requestFocus();
+                int x = time;
                 if (timeline != null)
                     timeline.stop();
                 timeline = new Timeline();
-                timeline.getKeyFrames().add(  
-                    new KeyFrame(Duration.seconds(time + 1), 
-                        e -> { System.out.println("Time's up!"); }
-                    ));
+                timeline.KeyFrames().add(
+                    new KeyFrame(Duration.seconds(time), (ActionEvent event) -> 
+                    x--));
+                
                 timeline.play();
-            }
-        });
+                }
+            });
     }
-
-
+    // public void timer() {
+    //     start.setOnAction(new EventHandler<ActionEvent>() {
+    //         @Override
+    //         public void handle(ActionEvent event) {
+    //             started = true;
+    //             answer.setDisable(false);
+    //             start.setDisable(true);
+    //             answer.requestFocus();
+    //             if (timeline != null)
+    //                 timeline.stop();
+    //             timeline = new Timeline();
+    //             timeline.getKeyFrames().add(  
+    //                 new KeyFrame(Duration.seconds(time + 1), 
+    //                     e -> { System.out.println("Time's up!"); }
+    //                 ));
+    //             timeline.play();
+    //         
 }
