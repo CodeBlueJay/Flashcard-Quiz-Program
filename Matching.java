@@ -49,9 +49,10 @@ public class Matching extends VBox {
                 bvox.getChildren().addAll(setWords);
             }
         }
-
         getChildren().add(bvox);
-    }
+
+        
+        
 
     /** Needs to acount for: 
      * Creating buttons
@@ -63,5 +64,5 @@ public class Matching extends VBox {
      * Match action (clicking one button, then clicking another on the other side, without issue occuring)
      * Check action (Checking to see if buttons that were clicked are a correct pair)
      * */ 
-
+    }
 }
