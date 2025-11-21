@@ -32,7 +32,7 @@ public class Accuracy extends VBox {
     private Button submit = new Button("Submit");
     private Button start = new Button("Start");
     private Label showTimer = new Label();
-    private Label score = new Label("Score:");
+    private Label score = new Label("Score: " + questionsCorrect);
     private Label definition = new Label("Definition: ");
     Font microwave;
     private HBox timerButtons = new HBox(4);
@@ -63,18 +63,6 @@ public class Accuracy extends VBox {
         timerButtons.getChildren().addAll(showTimer, start);
         getChildren().addAll(accuracylabel, score, timerButtons, container);
 
-        submit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String ans = "";
-                if (!(answer.getText() == null)) {
-                    ans = answer.getText();
-                } else {
-                    ans = "";
-                }
-                answer.setText(ans);
-            }
-        });
         timer();
     }
     public void timer() {
@@ -100,6 +88,24 @@ public class Accuracy extends VBox {
 
     private void mainLoop() {
         int index = Utils.weightedIndex(weights, words);
+        String correctAnswer = meanings.get(index);
         definition.setText("Definition: " + meanings.get(index));
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String ans = "";
+                if (!(answer.getText() == null)) {
+                    ans = answer.getText();
+                } else {
+                    ans = "";
+                }
+                answer.setText(ans);
+                if (ans.toLowerCase().equals(correctAnswer.toLowerCase())) {
+                    questionsCorrect++;
+                    score.setText("Score: " + questionsCorrect);
+                    expBar.addXP(10);
+                }
+            }
+        });
     }
 }
