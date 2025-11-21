@@ -23,11 +23,14 @@ public class Accuracy extends VBox {
     private int questionsCorrect;
     private double time;
     private EXPBarUI expBar;
+    private String correctAnswer;
+    private String ans;
     private Timeline timeline;
     private boolean started;
     // more gui components
     private Label accuracylabel = new Label("Accuracy");
     private VBox container = new VBox(8);
+    private Label feedback = new Label();
     private TextField answer = new TextField();
     private Button submit = new Button("Submit");
     private Button start = new Button("Start");
@@ -56,13 +59,34 @@ public class Accuracy extends VBox {
         showTimer.setText(String.format("%.2f", time));
         showTimer.getStyleClass().add("timer");
         score.getStyleClass().add("score");
+        submit.setDisable(!started);
         if (microwave != null) {
             showTimer.setFont(microwave);
         }
-        container.getChildren().addAll(answer, definition, submit);
+        container.getChildren().addAll(answer, definition, feedback, submit);
         timerButtons.getChildren().addAll(showTimer, start);
         getChildren().addAll(accuracylabel, score, timerButtons, container);
 
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                ans = "";
+                if (!(answer.getText() == null)) {
+                    ans = answer.getText();
+                } else {
+                    ans = "";
+                }
+                answer.setText(ans);
+                if (ans.toLowerCase().equals(correctAnswer.toLowerCase())) {
+                    questionsCorrect++;
+                    score.setText("Score: " + questionsCorrect);
+                    expBar.addXP(10);
+                    feedback.setText("Correct!");
+                } else {
+                    feedback.setText("Incorrect! The correct answer was: " + correctAnswer);
+                }
+            }
+        });
         timer();
     }
     public void timer() {
@@ -72,6 +96,7 @@ public class Accuracy extends VBox {
                 mainLoop();
                 started = true;
                 answer.setDisable(false);
+                submit.setDisable(false);
                 //start.setDisable(true);
                 answer.requestFocus();
                 if (timeline != null)
@@ -88,24 +113,9 @@ public class Accuracy extends VBox {
 
     private void mainLoop() {
         int index = Utils.weightedIndex(weights, words);
-        String correctAnswer = meanings.get(index);
+        System.out.println(meanings);
+        correctAnswer = meanings.get(index);
         definition.setText("Definition: " + meanings.get(index));
-        submit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String ans = "";
-                if (!(answer.getText() == null)) {
-                    ans = answer.getText();
-                } else {
-                    ans = "";
-                }
-                answer.setText(ans);
-                if (ans.toLowerCase().equals(correctAnswer.toLowerCase())) {
-                    questionsCorrect++;
-                    score.setText("Score: " + questionsCorrect);
-                    expBar.addXP(10);
-                }
-            }
-        });
+        
     }
 }
