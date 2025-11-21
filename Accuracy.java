@@ -37,6 +37,7 @@ public class Accuracy extends VBox {
     private Label showTimer = new Label();
     private Label score = new Label("Score: " + questionsCorrect);
     private Label definition = new Label("Definition: ");
+    private Soundplayer soundplayer = new Soundplayer();
     Font microwave;
     private HBox timerButtons = new HBox(4);
     {
@@ -82,8 +83,10 @@ public class Accuracy extends VBox {
                     score.setText("Score: " + questionsCorrect);
                     expBar.addXP(10);
                     feedback.setText("Correct!");
+                    soundplayer.playCorrect();
                 } else {
                     feedback.setText("Incorrect! The correct answer was: " + correctAnswer);
+                    soundplayer.playWrong();
                 }
             }
         });
@@ -113,8 +116,7 @@ public class Accuracy extends VBox {
 
     private void mainLoop() {
         int index = Utils.weightedIndex(weights, words);
-        System.out.println(meanings);
-        correctAnswer = meanings.get(index);
+        correctAnswer = words.get(index);
         definition.setText("Definition: " + meanings.get(index));
         
     }
