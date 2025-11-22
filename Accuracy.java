@@ -35,9 +35,11 @@ public class Accuracy extends VBox {
     private Button submit = new Button("Submit");
     private Button start = new Button("Start");
     private Label showTimer = new Label();
+    private HBox buttonBox = new HBox(2);
     private Label score = new Label("Score: " + questionsCorrect);
     private Label definition = new Label("Definition: ");
     private Soundplayer soundplayer = new Soundplayer();
+    private Button next = new Button("Next");
     Font microwave;
     private HBox timerButtons = new HBox(4);
     {
@@ -57,6 +59,7 @@ public class Accuracy extends VBox {
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
         answer.setDisable(!started);
+        next.setVisible(started);
         showTimer.setText(String.format("%.2f", time));
         showTimer.getStyleClass().add("timer");
         score.getStyleClass().add("score");
@@ -64,7 +67,8 @@ public class Accuracy extends VBox {
         if (microwave != null) {
             showTimer.setFont(microwave);
         }
-        container.getChildren().addAll(answer, definition, feedback, submit);
+        buttonBox.getChildren().addAll(submit, next);
+        container.getChildren().addAll(answer, definition, feedback, buttonBox);
         timerButtons.getChildren().addAll(showTimer, start);
         getChildren().addAll(accuracylabel, score, timerButtons, container);
 
@@ -84,10 +88,24 @@ public class Accuracy extends VBox {
                     expBar.addXP(10);
                     feedback.setText("Correct!");
                     soundplayer.playCorrect();
+                    next.setVisible(true);
+                    submit.setDisable(true);
                 } else {
                     feedback.setText("Incorrect! The correct answer was: " + correctAnswer);
                     soundplayer.playWrong();
+                    next.setVisible(true);
+                    submit.setDisable(true);
                 }
+            }
+        });
+        next.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                next.setVisible(false);
+                answer.clear();
+                feedback.setText("");
+                submit.setDisable(false);
+                mainLoop();
             }
         });
         timer();
@@ -100,7 +118,7 @@ public class Accuracy extends VBox {
                 started = true;
                 answer.setDisable(false);
                 submit.setDisable(false);
-                //start.setDisable(true);
+                start.setDisable(true);
                 answer.requestFocus();
                 if (timeline != null)
                     timeline.stop();
