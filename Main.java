@@ -16,12 +16,6 @@ import javafx.beans.value.ObservableValue;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
-import javafx.scene.text.Font;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class Main extends Application {
     private BorderPane root;
