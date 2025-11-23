@@ -1,7 +1,6 @@
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -12,8 +11,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.scene.text.Font;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Accuracy extends VBox {
@@ -27,6 +24,8 @@ public class Accuracy extends VBox {
     private String ans;
     private Timeline timeline;
     private boolean started;
+    private Random rng = new Random();
+    private int lastIndex = -1;
     // more gui components
     private Label accuracylabel = new Label("Accuracy");
     private VBox container = new VBox(8);
@@ -59,6 +58,9 @@ public class Accuracy extends VBox {
         setPadding(new Insets(16));
         answer.getStyleClass().add("answer");
         answer.setDisable(!started);
+        answer.setOnAction(ev -> {
+            if (!submit.isDisabled()) submit.fire();
+        });
         next.setVisible(started);
         showTimer.setText(String.format("%.2f", time));
         showTimer.getStyleClass().add("timer");
@@ -90,11 +92,13 @@ public class Accuracy extends VBox {
                     soundplayer.playCorrect();
                     next.setVisible(true);
                     submit.setDisable(true);
+                    next.requestFocus();
                 } else {
                     feedback.setText("Incorrect! The correct answer was: " + correctAnswer);
                     soundplayer.playWrong();
                     next.setVisible(true);
                     submit.setDisable(true);
+                    next.requestFocus();
                 }
             }
         });
@@ -105,6 +109,7 @@ public class Accuracy extends VBox {
                 answer.clear();
                 feedback.setText("");
                 submit.setDisable(false);
+                answer.requestFocus();
                 mainLoop();
             }
         });
@@ -125,7 +130,9 @@ public class Accuracy extends VBox {
                 timeline = new Timeline();
                 timeline.getKeyFrames().add(  
                     new KeyFrame(Duration.seconds(time + 1), 
-                        e -> { System.out.println("Time's up!"); }
+                        e -> {
+                            feedback.setText("Time's Up!");
+                        }
                     ));
                 timeline.play();
             }
@@ -134,6 +141,16 @@ public class Accuracy extends VBox {
 
     private void mainLoop() {
         int index = Utils.weightedIndex(weights, words);
+        int attempts = 0;
+        while (index == lastIndex && attempts < 8) {
+            index = Utils.weightedIndex(weights, words);
+            attempts++;
+        }
+        if (index < 0 || index >= words.size()) {
+            if (words == null || words.size() == 0) return;
+            index = rng.nextInt(words.size());
+        }
+        lastIndex = index;
         correctAnswer = words.get(index);
         definition.setText("Definition: " + meanings.get(index));
         

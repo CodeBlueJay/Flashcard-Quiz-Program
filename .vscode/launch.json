@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EXPBar",
+            "request": "launch",
+            "mainClass": "EXPBar",
+            "projectName": "Flashcard-Quiz-Program_19aa096d"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
