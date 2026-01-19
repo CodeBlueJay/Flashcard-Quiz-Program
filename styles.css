@@ -3,12 +3,12 @@
   src: url("fonts/microwave.ttf");
 }
 @font-face {
-  font-family: "Microwave";
-  src: url("fonts/microwave.ttf");
+  font-family: "Honk";
+  src: url("/fonts/honk.ttf");
 }
 
 .root {
-  -fx-font-family: "Microwave", "Segoe UI", Roboto, Arial, sans-serif;
+  -fx-font-family: "Honk", "Microwave", "Segoe UI", Roboto, Arial, sans-serif;
   -fx-background-color: linear-gradient(to bottom right, #fbfdff, #f4f7fb);
   -fx-padding: 0;
   -fx-font-size: 13px;
@@ -25,6 +25,7 @@
   -fx-font-weight: bold;
   -fx-text-fill: #0f172a;
   -fx-padding: 6 0 12 0;
+  -fx-font-family: "Honk";
 }
 
 .sub-title {
@@ -158,3 +159,9 @@
 .dark-mode .button { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 6, 0.2, 0, 1); }
 .dark-mode .text-field, .dark-mode .text-area { -fx-background-color: #0b1220; -fx-border-color: #122030; -fx-text-fill: #e6eef8; }
 
+.boss-health-bar {
+  -fx-accent: linear-gradient(to right, #ef4444, #dc2626);
+}
+.player-health-bar {
+  -fx-accent: linear-gradient(to right, #16a34a, #059669);
+}

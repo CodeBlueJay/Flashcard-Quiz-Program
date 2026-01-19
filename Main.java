@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
@@ -30,10 +31,32 @@ public class Main extends Application {
     ArrayList<String> default_definitions = new ArrayList<>(Arrays.asList("Central Processing Unit", "Random Access Memory", "Solid State Drive", "Graphics Processing Unit"));
     Flashcards flashcards = new Flashcards(default_terms, default_definitions);
     private EXPBarUI expBar;
+    Image appIcon = null;
+    Font honk;
+
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Flashcard Program");
-
+        // font loading
+        String[] fonts = {"microwave", "honk"};
+        for (String fontName : fonts) {
+            java.net.URL fontUrl = getClass().getResource("/fonts/" + fontName + ".ttf");
+            if (fontUrl != null) {
+                Font.loadFont(fontUrl.toExternalForm(), 10);
+            }
+        }
+        
+        stage.setTitle("FlashQuiz");
+        // load application icon (try classpath first, then local file)
+        try {
+            java.net.URL iconUrl = getClass().getResource("/icon.png");
+            if (iconUrl != null) {
+                appIcon = new Image(iconUrl.toExternalForm());
+            } else {
+                File f = new File("icon.png");
+                if (f.exists()) appIcon = new Image(f.toURI().toString());
+            }
+            if (appIcon != null) stage.getIcons().add(appIcon);
+        } catch (Exception ignored) {}
         flashcards.addFlashcardSet(flashcards);
         if (!Flashcards.IDs.isEmpty()) {
             Flashcards.titles.set(Flashcards.IDs.size()-1, "Default Set");
@@ -122,16 +145,6 @@ public class Main extends Application {
                     scene.getStylesheets().add(cssApp.toURI().toString());
                 }
             }
-
-            java.net.URL fontUrl = getClass().getResource("/fonts/microwave.ttf");
-            if (fontUrl != null) {
-                Font.loadFont(fontUrl.toExternalForm(), 10);
-            } else {
-                java.io.File fnt = new java.io.File("fonts/microwave.ttf");
-                java.io.File fntApp = new java.io.File("app/fonts/microwave.ttf");
-                if (fnt.exists()) Font.loadFont(fnt.toURI().toString(), 10);
-                else if (fntApp.exists()) Font.loadFont(fntApp.toURI().toString(), 10);
-            }
         } catch (Exception ignored) {
         }
         stage.setScene(scene);
@@ -155,12 +168,14 @@ public class Main extends Application {
         // });
         // box.getChildren().add(playSoundBtn);
         // end temp button functionality test
-        Label title = new Label("Flashcard Program Home");
+        Label title = new Label("FlashQuiz");
         Label subtitle = new Label("Selected Set");
+        honk = Font.loadFont("file:fonts/honk.ttf", 48);
         // Label warning = new Label("WARNING: The XP bar will reset every time you close the Program.");
         VBox box = new VBox(12);
         box.getStyleClass().add("app-container");
         title.getStyleClass().add("app-header");
+        title.setFont(honk);
         subtitle.getStyleClass().add("sub-title");
         box.setPadding(new Insets(16));
         FlowPane wrap = new FlowPane();

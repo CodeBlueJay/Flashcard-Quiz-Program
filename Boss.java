@@ -48,14 +48,16 @@ public class Boss extends VBox {
         playerHp = new ProgressBar();
         bossHp.progressProperty().bind(bossProgress);
         playerHp.progressProperty().bind(playerProgress);
+        bossHp.getStyleClass().add("boss-health-bar");
+        playerHp.getStyleClass().add("player-health-bar");
         playerHpUI = new Label("Player HP: " + health + "/" + max);
         bossHpUI = new Label("Boss HP: " + bossHealth + "/" + maxBoss);
         Label title = new Label("Boss Battle");
         Label info = new Label("Cards: " + (words != null ? words.size() : 0));
         HBox playerBar = new HBox(playerHpUI, playerHp);
         HBox bossBar = new HBox(bossHpUI, bossHp);
-        Learn learnView = new Learn(words, weights, meanings, xpBar);
-        getChildren().addAll(title, info, playerBar, bossBar, learnView);
+        // Learn learnView = new Learn(words, weights, meanings, xpBar);
+        getChildren().addAll(title, info, playerBar, bossBar);
         
     }
 
